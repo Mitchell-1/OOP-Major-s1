@@ -23,7 +23,7 @@ void move();
 
 virtual void playerUpdate() {};
 void getPowerUp(powerUp);
-void removePowerUp(powerUp&);
+void removePowerUp(powerUp);
 
 
 

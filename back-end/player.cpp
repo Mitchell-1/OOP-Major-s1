@@ -27,11 +27,10 @@ void player::getPowerUp(powerUp power){
     };
 };
 
-void player::removePowerUp(powerUp &power){
+void player::removePowerUp(powerUp power){
     this-> health -= power.health;
     this-> damage -= power.damage;
     this-> speed -= power.speed;
     this->tempLives -= power.lives;
-    delete &power;
     powerUpList.erase(powerUpList.begin());
 };

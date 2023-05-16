@@ -4,6 +4,7 @@
 
 class entity {
 protected:
+    unsigned short max_health;
     unsigned short health;
     unsigned short damage;
     unsigned short speed;
@@ -11,7 +12,7 @@ protected:
     unsigned short tempLives;
 
 public:
-    virtual void takeDamage(unsigned short damage) {};
+    void takeDamage(int damage);
     virtual void shoot(){};
 };
 
