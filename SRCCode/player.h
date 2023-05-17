@@ -47,12 +47,11 @@ void processEvents(sf::Keyboard::Key key, bool checkPressed)
 
 void update() 
 {
-    double move = (speed)/10;
     sf::Vector2f movement;
-    if (left) 
-        movement.x -= this->speed;
-    if (right) 
-        movement.x += this->speed;
+    if (left)
+        movement.x -= (0.1f * speed);
+    if (right)
+        movement.x += (0.1f * speed);
     body->move(movement);
 };
 
