@@ -49,9 +49,10 @@ void update()
 {
     sf::Vector2f movement;
     if (left)
-        movement.x -= (0.1f * speed);
+        movement.x -= (0.05f * speed);
     if (right)
-        movement.x += (0.1f * speed);
+        movement.x += 0.05f * speed;
+    
     body->move(movement);
 };
 

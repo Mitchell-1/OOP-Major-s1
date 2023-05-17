@@ -4,7 +4,8 @@
 
 game::game(int x, int y, std::string title) 
 {
-    player = new Player(10, 100, 100);
+    player = new Player(10, 100, 300);
+    en1 = new enemy(19, 10, 100, 100);
     win = new sf::RenderWindow(sf::VideoMode(x,y),title);
 }
 
@@ -27,7 +28,9 @@ void game::run() {
         }
         win->clear();
         player->draw(win);
+        en1->draw(win);
         player->update();
+        en1->update();
         win->display();
     }
 }
