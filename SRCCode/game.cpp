@@ -20,9 +20,14 @@ void game::run() {
             {
                 win->close();
             }
+            if (e.type == sf::Event::KeyPressed)
+                {player->processEvents(e.key.code, true);}
+            if (e.type == sf::Event::KeyReleased)
+                {player->processEvents(e.key.code, false);}
         }
         win->clear();
         player->draw(win);
+        player->update();
         win->display();
     }
 }

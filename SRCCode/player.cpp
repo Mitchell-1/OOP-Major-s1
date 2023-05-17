@@ -7,6 +7,8 @@ Player::Player() {
     this-> damage = 1;
     this-> speed = 1;
     this->lives = 1 ;
+    this->left = false;
+    this->right = false;
     //this-> weapon = weapon();
     //powerUpList = new powerUp[2];
 
@@ -23,6 +25,8 @@ Player::Player(int r, int x, int y) {
     this-> damage = 1;
     this-> speed = 1;
     this->lives = 1 ;
+    this->left = false;
+    this->right = false;
 };
 
 void Player::move(){
