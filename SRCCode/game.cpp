@@ -4,6 +4,7 @@
 
 game::game(int x, int y, std::string title) 
 {
+    player = new Player(10, 100, 100);
     win = new sf::RenderWindow(sf::VideoMode(x,y),title);
 }
 
@@ -21,6 +22,7 @@ void game::run() {
             }
         }
         win->clear();
+        player->draw(win);
         win->display();
     }
 }

@@ -2,7 +2,7 @@
 #include "player.h"
 
 
-player::player() {
+Player::Player() {
     this-> health = 1;
     this-> damage = 1;
     this-> speed = 1;
@@ -12,13 +12,26 @@ player::player() {
 
 };
 
-void player::move(){
+
+Player::Player(int r, int x, int y) {
+    body = new sf::CircleShape();
+    body->setRadius(r);
+    body->setPosition(x, y);
+    body->setFillColor(sf::Color::Green);
+    body->setOrigin(r/2, r/2);
+    this-> health = 1;
+    this-> damage = 1;
+    this-> speed = 1;
+    this->lives = 1 ;
+};
+
+void Player::move(){
 
 };
 
 
 
-void player::getPowerUp(powerUp power){
+void Player::getPowerUp(powerUp power){
     if (powerUpList.size() < 2){
         this-> health += power.health;
         this-> damage += power.damage;
@@ -28,10 +41,15 @@ void player::getPowerUp(powerUp power){
     };
 };
 
-void player::removePowerUp(powerUp power){
+void Player::removePowerUp(powerUp power){
     this-> health -= power.health;
     this-> damage -= power.damage;
     this-> speed -= power.speed;
     this->tempLives -= power.lives;
     powerUpList.erase(powerUpList.begin());
+};
+
+
+void Player::draw(sf::RenderWindow * win){
+    win->draw(*body);
 };

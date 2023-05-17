@@ -10,7 +10,7 @@
 
 using namespace std;
 
-class player : entity {
+class Player : entity {
 
 protected:
 sf::CircleShape* body;
@@ -20,8 +20,10 @@ std::vector<powerUp> powerUpList;
 weapon * weapon;
 
 public:
-player();
+Player();
+Player(int, int, int);
 void move();
+void draw(sf::RenderWindow * win);
 
 virtual void playerUpdate() {};
 void getPowerUp(powerUp);
