@@ -1,7 +1,6 @@
 #ifndef POWERUPS_H
 #define POWERUPS_H
 
-#include "powers.cpp"
 powerUp healthBoost(powerUp power){
     power.name = 'h';
     power.health = 3;

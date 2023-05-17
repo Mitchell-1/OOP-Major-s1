@@ -1,14 +1,14 @@
 #include "powers.h"
 
-powers::powers(char classType){
-    switch classType {
+powerUp::powerUp(char classType){
+    switch (classType) {
         case 'h':
             this->health  = 3;
-        case '':
+        case 'd':
             this-> damage = 3;
         case 's':
+            this->speed = 2;
     }
-
     
 
 }

@@ -1,8 +1,8 @@
 #ifndef PLAYER_H
 #define PLAYER_H
 
+#include "powers.h"
 #include "entity.h"
-#include "powers.cpp"
 #include "weapon.h"
 #include <iostream>
 #include <vector>
