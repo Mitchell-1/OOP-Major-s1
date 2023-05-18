@@ -16,11 +16,15 @@ Player::Player() {
 
 
 Player::Player(int r, int x, int y) {
-    body = new sf::CircleShape();
-    body->setRadius(r);
-    body->setPosition(x, y);
-    body->setFillColor(sf::Color::Green);
+    body = new sf::Sprite();
+    sf::Texture *texture;
+    texture = new sf::Texture;
+    texture->loadFromFile("SRCCode/static/player.png");
+    body->setTexture(*texture);
+    body->setScale(0.04f, 0.1f);
     body->setOrigin(r/2, r/2);
+    body->setPosition(x, y);
+    body->setColor(sf::Color::Green);
     this-> health = 1;
     this-> damage = 1;
     this-> speed = 1;

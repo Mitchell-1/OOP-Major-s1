@@ -13,7 +13,7 @@ using namespace std;
 class Player : entity {
 
 protected:
-sf::CircleShape* body;
+sf::Sprite* body;
 std::string classType;
 std::vector<powerUp> powerUpList;
 std::vector<Bullet*> bullets;
@@ -91,8 +91,8 @@ void update(sf::RenderWindow* win)
             body->setPosition(0 + (body->getGlobalBounds().width/2), body->getPosition().y);
 
     //Right Collision
-        if (body->getPosition().x + (body->getGlobalBounds().width/2) > win->getSize().x)
-            body->setPosition(win->getSize().x - (body->getGlobalBounds().width/2), body->getPosition().y);
+        if (body->getPosition().x + (body->getGlobalBounds().width) > win->getSize().x)
+            body->setPosition(win->getSize().x - (body->getGlobalBounds().width), body->getPosition().y);
 };
 
     //Bullet is created at runtime when space is clicked and added to bullets vector

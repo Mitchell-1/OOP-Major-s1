@@ -6,7 +6,7 @@
 class Bullet 
 {
     private:
-        sf::RectangleShape* body;
+        sf::Sprite* body;
         bool fired;
         float speed = -0.1;
         sf::Vector2f position;

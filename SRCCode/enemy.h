@@ -12,7 +12,7 @@
 class enemy : public entity {
 protected:
     char type;
-    sf::RectangleShape* body;
+    sf::Sprite* body;
     weapon * weapon;
     double direction;
 
@@ -28,10 +28,17 @@ enemy() {
 };
 
 enemy(int len, int width, int x, int y){;
-    body = new sf::RectangleShape();
-    body->setSize(sf::Vector2f(len, width));
+    body = new sf::Sprite();
+    sf::Texture *texture;
+    texture = new sf::Texture;
+    texture->loadFromFile("SRCCode/static/player.png");
+    body->setTexture(*texture);
+    //body->setTextureRect(sf::IntRect(10, 10, 50, 30));
+    
+    body->setScale(0.04f, 0.1f);
+    //body->setSize(sf::Vector2f(len, width));
     body->setPosition(x, y);
-    body->setFillColor(sf::Color::Red);
+    body->setColor(sf::Color::Red);
     body->setOrigin(len/2, width/2);
     this-> health = 1;
     this-> damage = 1;
