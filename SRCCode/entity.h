@@ -13,7 +13,6 @@ protected:
 
 public:
     void takeDamage(int damage);
-    virtual void shoot(){};
 };
 
 #endif

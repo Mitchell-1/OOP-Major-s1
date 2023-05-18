@@ -29,9 +29,6 @@ Player::Player(int r, int x, int y) {
     this->right = false;
 };
 
-void Player::move(){
-
-};
 
 
 

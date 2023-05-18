@@ -27,7 +27,6 @@ enemy() {
     this->tempLives = 0;
 };
 
-
 enemy(int len, int width, int x, int y){;
     body = new sf::RectangleShape();
     body->setSize(sf::Vector2f(len, width));
@@ -60,7 +59,9 @@ void update()
 
 void draw(sf::RenderWindow * win){
     win->draw(*body);
-};;
+};
+
+
 
 };
 #endif
