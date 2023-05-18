@@ -49,6 +49,7 @@ void game::run() {
         }
         player->update(win);
         en1->update();
+
     }
 
         player->draw(win);
