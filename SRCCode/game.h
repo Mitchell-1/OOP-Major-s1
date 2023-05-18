@@ -13,11 +13,15 @@ class game {
     Player* player;
     enemy * en1;
     enemy ** level;
+    int ptime = 0;
+    int offset = 0;
+    int tickRate = 120;
     public:
     game(int x, int y, std::string title);
     void run();
     void levelCreate(int (&levelArr)[30]);
     ~game();
+    int deltaTime(int, int);
 
 };
 

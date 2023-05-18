@@ -59,9 +59,9 @@ void update(sf::RenderWindow* win)
 {
     sf::Vector2f movement;
     if (left)
-        movement.x -= (0.05f * speed);
+        movement.x -= (0.05 * speed);
     if (right)
-        movement.x += 0.05f * speed;
+        movement.x += (0.05 * speed);
 
     body->move(movement);
     for (int i = 0; i < bullets.size(); i++) {
@@ -71,7 +71,7 @@ void update(sf::RenderWindow* win)
     if (reload ==0) {
         if (isShooting){
             shoot();
-            reload = 500;
+            reload = 5;
         };
         }
     else {

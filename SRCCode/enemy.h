@@ -31,12 +31,13 @@ enemy(int len, int width, int x, int y){;
     body = new sf::RectangleShape();
     body->setSize(sf::Vector2f(len, width));
     body->setPosition(x, y);
-    body->setFillColor(sf::Color::Green);
+    body->setFillColor(sf::Color::Red);
     body->setOrigin(len/2, width/2);
     this-> health = 1;
     this-> damage = 1;
     this-> speed = 1;
     this->lives = 1 ;
+    this->direction = (0.05f * this->speed);
 };
 
 
@@ -44,16 +45,16 @@ void update()
 {
     //std::cout << "update" << std::endl;
     sf::Vector2f movement;
-    if (body->getPosition().x >= 400) {
-        movement.y += 5;
-        direction = (0.05f * speed);
+    if (body->getPosition().x >= 490) {
+        movement.y += 20;
+        direction = (-0.05 * speed);
         
-    } else if (body->getPosition().x <= 100) {
-        movement.y += 5;
-        direction = (-0.05f * speed);
+    } else if (body->getPosition().x <= 10) {
+        movement.y += 20;
+        direction = (0.05 * speed);
         
     }
-    movement.x -= direction;
+    movement.x += direction;
     body->move(movement);
 };
 
