@@ -25,6 +25,8 @@ Player::Player(int r, int x, int y) {
     body->setOrigin(r/2, r/2);
     body->setPosition(x, y);
     body->setColor(sf::Color::Green);
+
+    
     this-> health = 1;
     this-> damage = 1;
     this-> speed = 1;

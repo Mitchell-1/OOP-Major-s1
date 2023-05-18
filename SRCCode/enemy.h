@@ -31,15 +31,14 @@ enemy(int len, int width, int x, int y){;
     body = new sf::Sprite();
     sf::Texture *texture;
     texture = new sf::Texture;
-    texture->loadFromFile("SRCCode/static/player.png");
+    texture->loadFromFile("SRCCode/static/enemy.png");
     body->setTexture(*texture);
-    //body->setTextureRect(sf::IntRect(10, 10, 50, 30));
-    
     body->setScale(0.04f, 0.1f);
-    //body->setSize(sf::Vector2f(len, width));
-    body->setPosition(x, y);
-    body->setColor(sf::Color::Red);
     body->setOrigin(len/2, width/2);
+    body->setPosition(x, y);
+
+
+
     this-> health = 1;
     this-> damage = 1;
     this-> speed = 1;
