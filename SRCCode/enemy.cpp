@@ -31,11 +31,11 @@ enemy::enemy(int len, int width, int x, int y){
 
 
 
-void enemy::update() 
+void enemy::update(sf::RenderWindow *win) 
 {
     //std::cout << "update" << std::endl;
     sf::Vector2f movement;
-    if (body->getPosition().x >= 490) {
+    if (body->getPosition().x >= win->getSize().x -10) {
         movement.y += 20;
         direction = (-0.05 * speed);
         

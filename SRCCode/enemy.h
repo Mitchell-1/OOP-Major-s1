@@ -24,7 +24,7 @@ enemy();
 enemy(int len, int width, int x, int y);
 
 
-void update();
+void update(sf::RenderWindow * window);
 void draw(sf::RenderWindow * win);
 
 };

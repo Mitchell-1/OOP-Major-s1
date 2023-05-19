@@ -13,12 +13,11 @@ class game {
     private:
     sf::RenderWindow* win;
     Player* player;
-    enemy * en1;
     enemy ** level;
     std::stack<State*> states;
-    int ptime = 0;
-    int offset = 0;
-    int tickRate = 120;
+    float offset = 0;
+    float tpf;
+    int tickRate = 60;
     sf::Clock dtClock;
     float dt;
     public:
@@ -27,8 +26,8 @@ class game {
     void levelCreate(int (&levelArr)[30]);
     void render();
     void update();
+    float deltaTime (float, float);
     ~game();
-    int deltaTime(int, int);
     void updateDt();
 
     void initStates();
