@@ -8,7 +8,7 @@ Bullet::Bullet(sf::Vector2f player, int damage) {
     body->setTexture(*texture);
     body->setScale(0.1f, 0.2f);
     body->setPosition(player);
-    body->setOrigin(body->getPosition().x/2,body->getPosition().y/2);
+    body->setOrigin(body->getLocalBounds().width/2,body->getLocalBounds().height/2);
     fired = false;
     this->damage = damage;
 }

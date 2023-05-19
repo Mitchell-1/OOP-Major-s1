@@ -17,7 +17,7 @@ enemy::enemy(int len, int width, int x, int y){
     texture->loadFromFile("SRCCode/static/enemy.png");
     body->setTexture(*texture);
     body->setScale(0.3, 0.3);
-    body->setOrigin(len/2, width/2);
+    body->setOrigin(body->getLocalBounds().width/2,body->getLocalBounds().height/2);
     body->setPosition(x, y);
 
 
@@ -47,7 +47,7 @@ void enemy::update(sf::RenderWindow *win, std::vector<Bullet*> &Bullets)
     }
     //std::cout << "update" << std::endl;
     sf::Vector2f movement;
-    if (body->getPosition().x >= win->getSize().x -10) {
+    if (body->getPosition().x >= win->getSize().x -(body->getLocalBounds().width/2)) {
         movement.y += body->getGlobalBounds().height + 5;
         direction = (-0.05 * speed);
         

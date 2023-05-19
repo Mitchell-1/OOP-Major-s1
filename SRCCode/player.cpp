@@ -22,7 +22,7 @@ Player::Player(int r, int x, int y) {
     body->setTexture(*texture);
     body->setScale(0.04f, 0.1f);
     body->setPosition(x, y);
-    body->setOrigin(body->getPosition().x/2,body->getPosition().y/2);
+    body->setOrigin(body->getLocalBounds().width/2.f,body->getLocalBounds().height/2.f);
     body->setColor(sf::Color::Green);
 
     

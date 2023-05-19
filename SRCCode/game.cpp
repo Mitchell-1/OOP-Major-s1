@@ -9,7 +9,7 @@
 
 game::game(int x, int y, std::string title) 
 {
-    player = new Player(10, 100, 300);
+    player = new Player(10, 800, 300);
     win = new sf::RenderWindow(sf::VideoMode(x,y),title);
     win->setFramerateLimit(200);
     initStates();

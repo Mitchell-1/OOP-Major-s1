@@ -8,7 +8,7 @@ class Bullet
     private:
         sf::Sprite* body;
         bool fired;
-        float speed = -0.5;
+        float speed = -5;
         sf::Vector2f position;
         sf::Texture* texture;
         int damage;
