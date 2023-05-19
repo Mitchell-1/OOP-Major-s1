@@ -40,7 +40,6 @@ void game::updateDt()
     this->tpf = this->tickRate/(1/this->dt) + offset;
     this->offset = this->tpf-floor(this->tpf);
     this->tpf = floor(this->tpf);
-    //std::cout << fmod(1.0f,this->tpf) <<std::endl;
     //std::cout << "Seconds per frame: " << this->dt << ", ticks per frame: " << tpf << ", offset: " << offset << std::endl;
 }
 
@@ -78,7 +77,7 @@ void game::update()
             {player->processEvents(e.key.code, false);}
     }
 
-
+    /*checks hit collision of bullets and enemies*/
     for(int i = 0; i <30; i++)
     {
         if (level[i] != nullptr)
@@ -94,6 +93,7 @@ void game::update()
     player->update(win);
     }
     player->draw(win);
+    
     for(int i = 0; i <30; i++)
     {
         if (level[i] != nullptr)

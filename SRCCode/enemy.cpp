@@ -70,5 +70,5 @@ enemy::~enemy(){
     delete this->texture;
     this->texture = nullptr;
     this->body = nullptr;
-    std::cout << "enemy destroyed" << std::endl;
+    //std::cout << "enemy destroyed" << std::endl;
 }

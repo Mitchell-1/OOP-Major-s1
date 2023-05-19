@@ -18,7 +18,7 @@ Bullet::~Bullet() {
     delete this->texture;
     this->texture = nullptr;
     this->body = nullptr;
-    std::cout << "Bullet destroyed" << std::endl;
+    //std::cout << "Bullet destroyed" << std::endl;
 }
 
 void Bullet::draw(sf::RenderWindow * win){
@@ -29,7 +29,6 @@ void Bullet::update(sf::RenderWindow* win) {
     sf::Vector2f movement;
     movement.y += speed;
     body->move(movement);
-    draw(win);
 }
 
 
