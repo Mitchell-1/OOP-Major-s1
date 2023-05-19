@@ -60,21 +60,9 @@ void Player::processEvents(sf::Keyboard::Key key, bool checkPressed)
 };
 
 
-    //update player position, data and bullets
-void Player::update(sf::RenderWindow* win) 
-{
-                         //check if any movement has been made
-    sf::Vector2f movement;
-    if (left)
-        movement.x -= (0.5 * speed);
-    if (right)
-        movement.x += (0.5 * speed);
 
-    body->move(movement);
-                                                //move bullets according to speed data member
-    for (int i = 0; i < bullets.size(); i++) {
-        bullets.at(i)->update(win);
-    }
+void Player::bulletValidity(sf::RenderWindow* win) 
+{
     /*This loop checks that bullets are on screen, and if they are not, deletes them to free up memory*/
 
     if (!bullets.empty()) 
@@ -91,7 +79,7 @@ void Player::update(sf::RenderWindow* win)
             }            
     }
 
-            /*capping firerate at a certian amount, and only allowing firing if the wait time is up.*/
+    /*capping firerate at a certian amount, and only allowing firing if the wait time is up.*/
     if (reload ==0) {
         if (isShooting){
             shoot();
@@ -101,7 +89,25 @@ void Player::update(sf::RenderWindow* win)
     else {
         reload --;
     }
+}
 
+//update player position and data, with bullets encapsulated
+void Player::update(sf::RenderWindow* win) 
+{
+                         //check if any movement has been made
+    sf::Vector2f movement;
+    if (left)
+        movement.x -= (0.5 * speed);
+    if (right)
+        movement.x += (0.5 * speed);
+
+    body->move(movement);
+    /*moves bullets after being shot*/
+    for (int i = 0; i < bullets.size(); i++) {
+        bullets.at(i)->update(win);
+    }
+
+    bulletValidity(win);
     //Collision detection with screen and player
 
     //Left Collision
@@ -112,6 +118,7 @@ void Player::update(sf::RenderWindow* win)
         if (body->getPosition().x + (body->getGlobalBounds().width) > win->getSize().x)
             body->setPosition(win->getSize().x - (body->getGlobalBounds().width), body->getPosition().y);
 };
+
 
 
     //Bullet is created at runtime when space is clicked and added to bullets vector

@@ -30,7 +30,7 @@ public:
 Player();
 Player(int, int, int);
 void draw(sf::RenderWindow * win);
-
+void bulletValidity(sf::RenderWindow * win);
 virtual void playerUpdate() {};
 void getPowerUp(powerUp);
 void removePowerUp(powerUp);
