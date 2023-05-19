@@ -2,7 +2,7 @@
 #include "game.h"
 
 int main() {
-    game g(500,500,"test");
+    game g(1600,900,"test");
     g.run();
     return 0;
 }

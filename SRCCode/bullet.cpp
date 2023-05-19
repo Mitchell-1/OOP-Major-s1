@@ -1,16 +1,23 @@
 #include <SFML/Graphics.hpp>
 #include "bullet.h"
-
+#include <iostream>
 Bullet::Bullet(sf::Vector2f player) {
     body = new sf::Sprite;
-    sf::Texture * texture;
     texture = new sf::Texture;
     texture->loadFromFile("SRCCode/static/bullet.png");
     body->setTexture(*texture);
     body->setScale(0.1f, 0.2f);
-    body->setOrigin(body->getPosition().x/2,body->getPosition().y/2);
     body->setPosition(player);
+    body->setOrigin(body->getPosition().x/2,body->getPosition().y/2);
     fired = false;
+}
+
+Bullet::~Bullet() {
+    delete this->body;
+    delete this->texture;
+    this->texture = nullptr;
+    this->body = nullptr;
+    std::cout << "Bullet destroyed" << std::endl;
 }
 
 void Bullet::draw(sf::RenderWindow * win){
@@ -25,4 +32,10 @@ void Bullet::update(sf::RenderWindow* win) {
 }
 
 
-//give bullets to game, have constructor grab player detail
+bool Bullet::checkOutOfBounds(sf::RenderWindow* win) {
+    if (this->body->getPosition().y < 0) 
+    {
+        return true;
+    }
+    return false;
+}

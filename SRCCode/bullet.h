@@ -10,9 +10,9 @@ class Bullet
         bool fired;
         float speed = -0.1;
         sf::Vector2f position;
-
+        sf::Texture* texture;
     public:
-    Bullet();
+    bool checkOutOfBounds(sf::RenderWindow* win);
     Bullet(sf::Vector2f playerPos);
     ~Bullet();
     void draw(sf::RenderWindow *win);

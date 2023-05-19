@@ -13,71 +13,19 @@ class enemy : public entity {
 protected:
     char type;
     sf::Sprite* body;
+    sf::Texture* texture;
     weapon * weapon;
     double direction;
 
 public:
 virtual void die() {};
-enemy() {
-    this->max_health = 1;
-    this->health = 1;
-    this->damage = 1;
-    this->speed = 1;
-    this->lives = 1;
-    this->tempLives = 0;
-};
 
-enemy(int len, int width, int x, int y){;
-    body = new sf::Sprite();
-    sf::Texture *texture;
-    texture = new sf::Texture;
-    texture->loadFromFile("SRCCode/static/enemy.png");
-    body->setTexture(*texture);
-    body->setScale(0.04f, 0.1f);
-    body->setOrigin(len/2, width/2);
-    body->setPosition(x, y);
+enemy();
+enemy(int len, int width, int x, int y);
 
 
-
-    this-> health = 1;
-    this-> damage = 1;
-    this-> speed = 1;
-    this->lives = 1 ;
-    this->direction = (0.05f * this->speed);
-};
-
-
-void update() 
-{
-    //std::cout << "update" << std::endl;
-    sf::Vector2f movement;
-    if (body->getPosition().x >= 490) {
-        movement.y += 20;
-        direction = (-0.05 * speed);
-        
-    } else if (body->getPosition().x <= 10) {
-        movement.y += 20;
-        direction = (0.05 * speed);
-        
-    }
-    movement.x += direction;
-    body->move(movement);
-};
-
-void draw(sf::RenderWindow * win){
-    win->draw(*body);
-};
-
-
+void update();
+void draw(sf::RenderWindow * win);
 
 };
 #endif
-
-/*
-unsigned short max_health;
-    unsigned short health;
-    unsigned short damage;
-    unsigned short speed;
-    unsigned short lives;
-    unsigned short tempLives;
-*/
