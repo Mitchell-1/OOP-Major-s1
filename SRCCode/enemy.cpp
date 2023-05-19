@@ -16,7 +16,7 @@ enemy::enemy(int len, int width, int x, int y){
     texture = new sf::Texture;
     texture->loadFromFile("SRCCode/static/enemy.png");
     body->setTexture(*texture);
-    body->setScale(0.2f, 1);
+    body->setScale(0.3, 0.3);
     body->setOrigin(len/2, width/2);
     body->setPosition(x, y);
 
@@ -24,7 +24,7 @@ enemy::enemy(int len, int width, int x, int y){
     this->isDead = false;
     this-> health = 1;
     this-> damage = 1;
-    this-> speed = 1;
+    this-> speed = 10;
     this->lives = 1 ;
     this->tempLives = 0;
     this->direction = (0.05f * this->speed);
@@ -48,11 +48,11 @@ void enemy::update(sf::RenderWindow *win, std::vector<Bullet*> &Bullets)
     //std::cout << "update" << std::endl;
     sf::Vector2f movement;
     if (body->getPosition().x >= win->getSize().x -10) {
-        movement.y += 20;
+        movement.y += body->getGlobalBounds().height + 5;
         direction = (-0.05 * speed);
         
     } else if (body->getPosition().x <= 10) {
-        movement.y += 20;
+        movement.y += body->getGlobalBounds().height + 5;
         direction = (0.05 * speed);
         
     }

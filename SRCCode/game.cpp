@@ -113,7 +113,7 @@ unsigned int ArrPos = 0;
 for (int posY = 50; posY <win->getSize().y-50; posY+= 200) 
 {
     
-    for (int posX = 50; posX < win->getSize().x; posX+= 300) 
+    for (int posX = 50; posX < win->getSize().x; posX+= win->getSize().x/10)
     {
         if (ArrPos == 30)
             break;

@@ -28,7 +28,7 @@ Player::Player(int r, int x, int y) {
     
     this-> health = 1;
     this-> damage = 1;
-    this-> speed = 1;
+    this-> speed = 10;
     this->lives = 1 ;
     this->left = false;
     this->right = false;
