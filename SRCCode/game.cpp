@@ -41,7 +41,7 @@ void game::updateDt()
     this->offset = this->tpf-floor(this->tpf);
     this->tpf = floor(this->tpf);
     //std::cout << fmod(1.0f,this->tpf) <<std::endl;
-    std::cout << "Seconds per frame: " << this->dt << ", ticks per frame: " << tpf << ", offset: " << offset << std::endl;
+    //std::cout << "Seconds per frame: " << this->dt << ", ticks per frame: " << tpf << ", offset: " << offset << std::endl;
 }
 
 
@@ -60,7 +60,7 @@ void game::update()
     
     for (int i = 0; i < this->tpf; i++) 
     {
-        std::cout << i << std::endl;
+        //std::cout << i << std::endl;
     sf::Event e;
     
     
@@ -83,7 +83,11 @@ void game::update()
     {
         if (level[i] != nullptr)
         {
-            level[i]->update(win);
+            level[i]->update(win, player->getBullets());
+            if (level[i]->isDead){
+                delete level[i];
+                level[i] = nullptr; 
+            }
         }
     }
 

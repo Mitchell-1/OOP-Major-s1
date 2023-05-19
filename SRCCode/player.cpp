@@ -83,7 +83,7 @@ void Player::bulletValidity(sf::RenderWindow* win)
     if (reload ==0) {
         if (isShooting){
             shoot();
-            reload = 500;
+            reload = 50;
         };
         }
     else {
@@ -123,7 +123,7 @@ void Player::update(sf::RenderWindow* win)
 
     //Bullet is created at runtime when space is clicked and added to bullets vector
 void Player::shoot() {
-        Bullet* bullet = new Bullet(body->getPosition());
+        Bullet* bullet = new Bullet(body->getPosition(), this->damage);
         bullets.push_back(bullet);
 }
 

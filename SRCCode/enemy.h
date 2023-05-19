@@ -5,6 +5,8 @@
 #include "powers.h"
 #include "entity.h"
 #include "weapon.h"
+#include "bullet.h"
+#include "player.h"
 #include <iostream>
 #include <vector>
 
@@ -24,8 +26,9 @@ enemy();
 enemy(int len, int width, int x, int y);
 
 
-void update(sf::RenderWindow * window);
+void update(sf::RenderWindow * win, std::vector<Bullet*>& Bullets);
 void draw(sf::RenderWindow * win);
+~enemy();
 
 };
 #endif

@@ -19,14 +19,15 @@ sf::Sprite* body;
 sf::Texture* texture;
 std::string classType;
 std::vector<powerUp> powerUpList;
-std::vector<Bullet*> bullets;
 bool left;
 bool right;
 bool isShooting;
 weapon * weapon;
-int reload = 500;
+int reload = 0;
+std::vector<Bullet*> bullets;
 
 public:
+
 Player();
 Player(int, int, int);
 void draw(sf::RenderWindow * win);
@@ -36,7 +37,7 @@ void getPowerUp(powerUp);
 void removePowerUp(powerUp);
 
 void processEvents(sf::Keyboard::Key key, bool checkPressed);
-
+std::vector<Bullet*>& getBullets(){return this->bullets;};
 void update(sf::RenderWindow* win);
 
 void shoot();

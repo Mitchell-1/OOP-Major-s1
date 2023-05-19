@@ -11,7 +11,9 @@ protected:
     unsigned short lives;
     unsigned short tempLives;
 
+
 public:
+    bool isDead;
     void takeDamage(int damage);
 };
 

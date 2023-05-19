@@ -1,7 +1,7 @@
 #include <SFML/Graphics.hpp>
 #include "bullet.h"
 #include <iostream>
-Bullet::Bullet(sf::Vector2f player) {
+Bullet::Bullet(sf::Vector2f player, int damage) {
     body = new sf::Sprite;
     texture = new sf::Texture;
     texture->loadFromFile("SRCCode/static/bullet.png");
@@ -10,6 +10,7 @@ Bullet::Bullet(sf::Vector2f player) {
     body->setPosition(player);
     body->setOrigin(body->getPosition().x/2,body->getPosition().y/2);
     fired = false;
+    this->damage = damage;
 }
 
 Bullet::~Bullet() {

@@ -8,12 +8,15 @@ class Bullet
     private:
         sf::Sprite* body;
         bool fired;
-        float speed = -0.1;
+        float speed = -0.5;
         sf::Vector2f position;
         sf::Texture* texture;
+        int damage;
     public:
+    int getDamage() { return damage; }
     bool checkOutOfBounds(sf::RenderWindow* win);
-    Bullet(sf::Vector2f playerPos);
+    sf::FloatRect getRect() {return body->getGlobalBounds();}
+    Bullet(sf::Vector2f playerPos, int);
     ~Bullet();
     void draw(sf::RenderWindow *win);
     void update(sf::RenderWindow *win);
