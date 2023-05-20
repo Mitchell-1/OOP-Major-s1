@@ -9,7 +9,9 @@
 
 game::game(int x, int y, std::string title) 
 {
-    player = new Player(10, 800, 300);
+    texture = new sf::Texture;
+    texture->loadFromFile("SRCCode/static/SpriteMap.png");
+    player = new Player(10, 800, 300, texture);
     win = new sf::RenderWindow(sf::VideoMode(x,y),title);
     win->setFramerateLimit(200);
     initStates();
@@ -54,6 +56,8 @@ void game::render()
 
 void game::update() 
 {
+    if (this->gameClock.getElapsedTime().asSeconds() >= 30000)
+        gameClock.restart().asSeconds();
     this->updateDt();
     win->clear();
     
@@ -98,7 +102,7 @@ void game::update()
     {
         if (level[i] != nullptr)
         {
-            level[i]->draw(win);
+            level[i]->draw(win, gameClock);
         }
     }
     win->display();
@@ -122,7 +126,7 @@ for (int posY = 50; posY <win->getSize().y-50; posY+= 200)
                 level[ArrPos] = nullptr;
                 break;
             case 1: 
-                enemy * en = new enemy(19, 10, posX, posY);
+                enemy * en = new enemy(19, 10, posX, posY, this->texture);
                 level[ArrPos] = en;
                 
                 break;

@@ -1,5 +1,5 @@
 #include "enemy.h"
-
+#include <cmath>
 
 enemy::enemy() {
     this->max_health = 1;
@@ -11,17 +11,18 @@ enemy::enemy() {
 };
 
 
-enemy::enemy(int len, int width, int x, int y){
+enemy::enemy(int len, int width, int x, int y, sf::Texture* text){
     body = new sf::Sprite();
-    texture = new sf::Texture;
-    texture->loadFromFile("SRCCode/static/enemy.png");
+    this->texture = new sf::Texture(*text);
     body->setTexture(*texture);
-    body->setScale(0.3, 0.3);
+    body->setTextureRect(source);
+    body->setScale(5, 5);
     body->setOrigin(body->getLocalBounds().width/2,body->getLocalBounds().height/2);
     body->setPosition(x, y);
 
 
     this->isDead = false;
+    this->texture2 = false;
     this-> health = 1;
     this-> damage = 1;
     this-> speed = 10;
@@ -34,6 +35,7 @@ enemy::enemy(int len, int width, int x, int y){
 
 void enemy::update(sf::RenderWindow *win, std::vector<Bullet*> &Bullets) 
 {
+
     if (!Bullets.empty()) 
     {
         for (int i = 0; i < Bullets.size(); i++){
@@ -47,11 +49,11 @@ void enemy::update(sf::RenderWindow *win, std::vector<Bullet*> &Bullets)
     }
     //std::cout << "update" << std::endl;
     sf::Vector2f movement;
-    if (body->getPosition().x >= win->getSize().x -(body->getLocalBounds().width/2)) {
+    if (body->getPosition().x >= win->getSize().x -(body->getGlobalBounds().width/2)) {
         movement.y += body->getGlobalBounds().height + 5;
         direction = (-0.05 * speed);
         
-    } else if (body->getPosition().x <= 10) {
+    } else if (body->getPosition().x-body->getGlobalBounds().width <= 0) {
         movement.y += body->getGlobalBounds().height + 5;
         direction = (0.05 * speed);
         
@@ -61,7 +63,14 @@ void enemy::update(sf::RenderWindow *win, std::vector<Bullet*> &Bullets)
 
 };
 
-void enemy::draw(sf::RenderWindow * win){
+void enemy::draw(sf::RenderWindow * win, sf::Clock gameClock){
+    /*if (gameClock.getElapsedTime().asMilliseconds()%500 ==0)
+    {
+        changeTexture();
+    }*/
+    
+    animation(gameClock);
+    //body->setTextureRect(sf::IntRect(2, 2, 12, 12))
     win->draw(*body);
 };
 
@@ -71,4 +80,26 @@ enemy::~enemy(){
     this->texture = nullptr;
     this->body = nullptr;
     //std::cout << "enemy destroyed" << std::endl;
-}
+};
+
+void enemy::animation(sf::Clock gameClock){
+
+    if (gameClock.getElapsedTime().asMilliseconds()%500 <= 0.00001) {
+        
+    
+        if(texture2)
+        {   
+            std::cout << "changed to texture 1" << std::endl;
+            this->source.left = 34;
+            texture2 = false;
+        }else 
+        {
+            std::cout << "changed to texture 2" << std::endl;
+            this->source.left = 2;
+            texture2 = true;
+        }
+    }
+    //std::cout << source.left << std::endl;
+    body->setTextureRect(source);
+        //std::cout << "change texture" << std::endl;
+};

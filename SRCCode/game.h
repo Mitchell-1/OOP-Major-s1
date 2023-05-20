@@ -19,7 +19,9 @@ class game {
     float tpf;
     int tickRate = 60;
     sf::Clock dtClock;
+    sf::Clock gameClock;
     float dt;
+    sf::Texture* texture;
     public:
     game(int x, int y, std::string title);
     void run();

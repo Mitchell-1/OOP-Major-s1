@@ -15,12 +15,12 @@ Player::Player() {
 };
 
 
-Player::Player(int r, int x, int y) {
+Player::Player(int r, int x, int y, sf::Texture* text) {
     body = new sf::Sprite();
-    texture = new sf::Texture;
-    texture->loadFromFile("SRCCode/static/player.png");
+    this->texture = new sf::Texture(*text);
     body->setTexture(*texture);
-    body->setScale(0.04f, 0.1f);
+    body->setTextureRect(sf::IntRect(51, 18, 11, 11));
+    body->setScale(10, 10);
     body->setPosition(x, y);
     body->setOrigin(body->getLocalBounds().width/2.f,body->getLocalBounds().height/2.f);
     body->setColor(sf::Color::Green);
@@ -111,12 +111,12 @@ void Player::update(sf::RenderWindow* win)
     //Collision detection with screen and player
 
     //Left Collision
-        if (body->getPosition().x < 0)
-            body->setPosition(0, body->getPosition().y);
+        if (body->getPosition().x - body->getGlobalBounds().width/2 < 0)
+            body->setPosition(0 + (body->getGlobalBounds().width/2), body->getPosition().y);
 
     //Right Collision
-        if (body->getPosition().x + (body->getGlobalBounds().width) > win->getSize().x)
-            body->setPosition(win->getSize().x - (body->getGlobalBounds().width), body->getPosition().y);
+        if (body->getPosition().x + (body->getGlobalBounds().width)/2 > win->getSize().x)
+            body->setPosition(win->getSize().x - (body->getGlobalBounds().width)/2, body->getPosition().y);
 };
 
 

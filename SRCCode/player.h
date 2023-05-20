@@ -29,7 +29,7 @@ std::vector<Bullet*> bullets;
 public:
 
 Player();
-Player(int, int, int);
+Player(int, int, int, sf::Texture* texture);
 void draw(sf::RenderWindow * win);
 void bulletValidity(sf::RenderWindow * win);
 virtual void playerUpdate() {};
