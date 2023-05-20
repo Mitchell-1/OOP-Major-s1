@@ -22,6 +22,7 @@ enemy::enemy(int len, int width, int x, int y, sf::Texture* text){
 
 
     this->isDead = false;
+    this->isDying = false;
     this->texture2 = false;
     this-> health = 1;
     this-> damage = 1;
@@ -35,42 +36,41 @@ enemy::enemy(int len, int width, int x, int y, sf::Texture* text){
 
 void enemy::update(sf::RenderWindow *win, std::vector<Bullet*> &Bullets) 
 {
-
-    if (!Bullets.empty()) 
+    if (isDying) 
+    { 
+        die();
+    }
+    else
     {
-        for (int i = 0; i < Bullets.size(); i++){
-            if(body->getGlobalBounds().intersects(Bullets.at(i)->getRect())) 
-            {
-                takeDamage(Bullets.at(i)->getDamage());
-                delete Bullets.at(i);
-                Bullets.erase(Bullets.begin()+i);
-            }  
-        }          
+        if (!Bullets.empty()) 
+        {
+            for (int i = 0; i < Bullets.size(); i++){
+                if(body->getGlobalBounds().intersects(Bullets.at(i)->getRect())) 
+                {
+                    takeDamage(Bullets.at(i)->getDamage());
+                    if (isDying)
+                        deathTime = deathClock.getElapsedTime().asMilliseconds();
+                    delete Bullets.at(i);
+                    Bullets.erase(Bullets.begin()+i);
+                }  
+            }          
+        }
+        sf::Vector2f movement;
+        if (body->getPosition().x >= win->getSize().x -(body->getGlobalBounds().width/2)) {
+            movement.y += body->getGlobalBounds().height + 5;
+            direction = (-0.05 * speed);
+            
+        } else if (body->getPosition().x-body->getGlobalBounds().width <= 0) {
+            movement.y += body->getGlobalBounds().height + 5;
+            direction = (0.05 * speed);
+            
+        }
+        movement.x += direction;
+        body->move(movement);
     }
-    //std::cout << "update" << std::endl;
-    sf::Vector2f movement;
-    if (body->getPosition().x >= win->getSize().x -(body->getGlobalBounds().width/2)) {
-        movement.y += body->getGlobalBounds().height + 5;
-        direction = (-0.05 * speed);
-        
-    } else if (body->getPosition().x-body->getGlobalBounds().width <= 0) {
-        movement.y += body->getGlobalBounds().height + 5;
-        direction = (0.05 * speed);
-        
-    }
-    movement.x += direction;
-    body->move(movement);
-
 };
 
-void enemy::draw(sf::RenderWindow * win, sf::Clock gameClock){
-    /*if (gameClock.getElapsedTime().asMilliseconds()%500 ==0)
-    {
-        changeTexture();
-    }*/
-    
-    animation(gameClock);
-    //body->setTextureRect(sf::IntRect(2, 2, 12, 12))
+void enemy::draw(sf::RenderWindow * win){
     win->draw(*body);
 };
 
@@ -79,27 +79,52 @@ enemy::~enemy(){
     delete this->texture;
     this->texture = nullptr;
     this->body = nullptr;
-    //std::cout << "enemy destroyed" << std::endl;
 };
 
 void enemy::animation(sf::Clock gameClock){
+    if (gameClock.getElapsedTime().asSeconds() >= 1)
+    {
+            if(texture2)
+            {   
+                this->source.left = 34;
+                texture2 = false;
+            }else 
+            {
+                this->source.left = 50;
+                texture2 = true;
+            }
+        body->setTextureRect(source);
 
-    if (gameClock.getElapsedTime().asMilliseconds()%500 <= 0.00001) {
         
-    
-        if(texture2)
-        {   
-            std::cout << "changed to texture 1" << std::endl;
-            this->source.left = 34;
-            texture2 = false;
-        }else 
-        {
-            std::cout << "changed to texture 2" << std::endl;
-            this->source.left = 2;
-            texture2 = true;
-        }
     }
-    //std::cout << source.left << std::endl;
-    body->setTextureRect(source);
-        //std::cout << "change texture" << std::endl;
+
+    
+};
+
+void enemy::die()
+{
+    
+    int timeDiff = deathClock.getElapsedTime().asMilliseconds() - deathTime;
+
+    if (timeDiff < 1000)
+    {
+        this->body->setColor(sf::Color::Red);
+    }
+    else if (timeDiff >= 1000 && timeDiff < 3000)
+    {
+        this->body->setColor(sf::Color::Green);
+    }
+    else if (timeDiff >= 3000 && timeDiff < 4000)
+    {
+        body->setTextureRect(sf::IntRect(34, 18, 12, 12));
+    }
+    else if (timeDiff >= 4000 && timeDiff < 5000)
+    {
+        body->setScale(6, 6);
+    }
+    else
+    {
+        this->isDead = true;
+    }
+    
 };

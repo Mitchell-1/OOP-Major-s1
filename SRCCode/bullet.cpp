@@ -7,7 +7,7 @@ Bullet::Bullet(sf::Vector2f player, int damage) {
     texture->loadFromFile("SRCCode/static/bullet.png");
     body->setTexture(*texture);
     body->setScale(0.1f, 0.2f);
-    body->setPosition(player);
+    body->setPosition(player.x, player.y-50);
     body->setOrigin(body->getLocalBounds().width/2,body->getLocalBounds().height/2);
     fired = false;
     this->damage = damage;

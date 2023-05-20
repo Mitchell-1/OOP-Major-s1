@@ -87,13 +87,13 @@ void game::update()
         if (level[i] != nullptr)
         {
             level[i]->update(win, player->getBullets());
-            if (level[i]->isDead){
+            if (level[i]->isDead)
+            {
                 delete level[i];
-                level[i] = nullptr; 
+                level[i] = nullptr;
             }
         }
     }
-
     player->update(win);
     }
     player->draw(win);
@@ -101,10 +101,13 @@ void game::update()
     for(int i = 0; i <30; i++)
     {
         if (level[i] != nullptr)
-        {
-            level[i]->draw(win, gameClock);
+        {   
+            level[i]->animation(gameClock);
+            level[i]->draw(win);
         }
     }
+    if (gameClock.getElapsedTime().asSeconds() >= 1)
+        gameClock.restart();
     win->display();
     
 }

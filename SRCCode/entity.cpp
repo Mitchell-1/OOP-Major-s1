@@ -10,8 +10,7 @@ void entity::takeDamage(int damage){
             }
             else 
             {
-                isDead = true;
-                this->health = max_health;
+                isDying = true;
             }
         } else {
             this->tempLives --;

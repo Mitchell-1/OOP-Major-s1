@@ -148,9 +148,10 @@ void Player::removePowerUp(powerUp power){
 
 
 void Player::draw(sf::RenderWindow * win){
-    win->draw(*body);
     for (int i = 0; i <bullets.size(); i++)
     {
         bullets.at(i)->draw(win);
     }
+    win->draw(*body);
+    
 };
