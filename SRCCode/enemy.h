@@ -31,7 +31,7 @@ enemy(int len, int width, int x, int y, sf::Texture *text);
 
 void update(sf::RenderWindow * win, std::vector<Bullet*>& Bullets);
 void draw(sf::RenderWindow * win);
-virtual void animation(sf::Clock clock);
+virtual void animation(sf::Clock &clock);
 ~enemy();
 
 };

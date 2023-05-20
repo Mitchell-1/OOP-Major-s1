@@ -75,14 +75,16 @@ void enemy::draw(sf::RenderWindow * win){
 };
 
 enemy::~enemy(){
+    std::cout << "end" << std::endl;
+    this->body = nullptr;
+    this->texture = nullptr;
     delete this->body;
     delete this->texture;
-    this->texture = nullptr;
-    this->body = nullptr;
+    
 };
 
-void enemy::animation(sf::Clock gameClock){
-    if (gameClock.getElapsedTime().asSeconds() >= 1)
+void enemy::animation(sf::Clock &gameClock){
+    if (gameClock.getElapsedTime().asSeconds() >= 1 && !isDying)
     {
             if(texture2)
             {   
@@ -94,7 +96,6 @@ void enemy::animation(sf::Clock gameClock){
                 texture2 = true;
             }
         body->setTextureRect(source);
-
         
     }
 
@@ -124,6 +125,7 @@ void enemy::die()
     }
     else
     {
+        body->setColor(sf::Color::Red);
         this->isDead = true;
     }
     
