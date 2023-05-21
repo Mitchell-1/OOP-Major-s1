@@ -124,7 +124,7 @@ void Player::update(sf::RenderWindow* win)
 
     //Bullet is created at runtime when space is clicked and added to bullets vector
 void Player::shoot() {
-        Bullet* bullet = new Bullet(body->getPosition(), this->damage);
+        Bullet* bullet = new Bullet(body->getPosition(), this->damage, -5);
         bullets.push_back(bullet);
 }
 

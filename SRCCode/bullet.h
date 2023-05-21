@@ -16,7 +16,7 @@ class Bullet
     int getDamage() { return damage; }
     bool checkOutOfBounds(sf::RenderWindow* win);
     sf::FloatRect getRect() {return body->getGlobalBounds();}
-    Bullet(sf::Vector2f playerPos, int);
+    Bullet(sf::Vector2f playerPos, int, float);
     ~Bullet();
     void draw(sf::RenderWindow *win);
     void update();

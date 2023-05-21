@@ -34,9 +34,23 @@ enemy::enemy(int x, int y, sf::Texture* text){
     this->direction = (0.05f * this->speed);
 };
 
+void enemy::bulletValidity(sf::RenderWindow *win, std::vector<Bullet*> &enemyBullets) 
+{
+    if (!enemyBullets.empty()) 
+    {
+            if(enemyBullets.at(0)->checkOutOfBounds(win)) /*only check first one, as it will always be the highest*/
+            {
+                /*remove bullet object and call destructor to free up memory*/
 
+                delete enemyBullets.at(0);
 
-void enemy::update(sf::RenderWindow *win, std::vector<Bullet*> &Bullets) 
+                /*delete pointer from vector*/
+                enemyBullets.erase(enemyBullets.begin());
+            }           
+    }
+}
+
+void enemy::update(sf::RenderWindow *win, std::vector<Bullet*> &Bullets, std::vector<Bullet*> &enemyBullets) 
 {
     
     if (isDying) 
@@ -72,13 +86,14 @@ void enemy::update(sf::RenderWindow *win, std::vector<Bullet*> &Bullets)
         }
         movement.x += direction;
         body->move(movement);
+
+        bulletValidity(win, enemyBullets);
     }
 };
 
 void enemy::draw(sf::RenderWindow * win, std::vector<Bullet*> &enemyBullets){
     for (int i = 0; i <enemyBullets.size(); i++)
     {
-        std::cout << enemyBullets.size() << std::endl;
         enemyBullets.at(i)->draw(win);
     }
     win->draw(*body);
@@ -178,12 +193,11 @@ void enemy::shoot(std::vector<Bullet*> &enemyBullets) {
     //std::cout << "shoot" << std::endl;
     std::srand((unsigned) deathClock.getElapsedTime().asMicroseconds());
 
-    float randomGen = fmod(rand(), 13.27);
-    std::cout << randomGen << std::endl;
-    if (randomGen <= 0.05) 
+    float randomGen = fmod(rand(), 13.27);//random number
+    if (randomGen <= 0.02) //This number controls the amount of enemy bullets generated. the higher it is, the more bullets
     {
-        randomGen += 1;
-        Bullet* bullet = new Bullet(body->getPosition(), this->damage);
+        randomGen += 1;/*makes only one enemy shoot every random roll*/
+        Bullet* bullet = new Bullet(body->getPosition(), this->damage, 5);
         enemyBullets.push_back(bullet);
     }
     
@@ -199,4 +213,12 @@ void enemy::powerUpDrop()
     {
         powerUp* powerup = new powerUp('h',body->getLocalBounds());
     }
+}
+
+sf::Vector2f enemy::getBody() {
+    return body->getPosition();
+}
+
+sf::FloatRect enemy::getGlobal() {
+    return body->getGlobalBounds();
 }

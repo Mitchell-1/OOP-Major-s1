@@ -31,9 +31,11 @@ virtual void die();
 
 enemy();
 enemy(int x, int y, sf::Texture *text);
-
+void bulletValidity(sf::RenderWindow *win, std::vector<Bullet*> &enemyBullets);
 void powerUpDrop();
-void update(sf::RenderWindow * win, std::vector<Bullet*>& Bullets);
+void update(sf::RenderWindow * win, std::vector<Bullet*>& Bullets, std::vector<Bullet*> &enemyBullets);
+sf::Vector2f getBody();
+sf::FloatRect getGlobal();
 void draw(sf::RenderWindow * win, std::vector<Bullet*> &enemyBullets);
 void animation(sf::Clock &clock);
 void takeDamage(int damage);

@@ -75,8 +75,9 @@ void game::update()
     {
         if (level[i] != nullptr)
         {
-            level[i]->shoot(this->enemyBullets);
-            level[i]->update(win, player->getBullets());
+                level[i]->shoot(this->enemyBullets);
+                level[i]->update(win, player->getBullets(), enemyBullets);
+
             
             if (level[i]->isDead)
             {

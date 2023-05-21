@@ -1,7 +1,7 @@
 #include <SFML/Graphics.hpp>
 #include "bullet.h"
 #include <iostream>
-Bullet::Bullet(sf::Vector2f player, int damage) {
+Bullet::Bullet(sf::Vector2f player, int damage, float speed) {
     body = new sf::Sprite;
     texture = new sf::Texture;
     texture->loadFromFile("SRCCode/static/bullet.png");
@@ -11,6 +11,7 @@ Bullet::Bullet(sf::Vector2f player, int damage) {
     body->setOrigin(body->getLocalBounds().width/2,body->getLocalBounds().height/2);
     fired = false;
     this->damage = damage;
+    this->speed = speed;
 }
 
 Bullet::~Bullet() {
@@ -33,7 +34,7 @@ void Bullet::update() {
 
 
 bool Bullet::checkOutOfBounds(sf::RenderWindow* win) {
-    if (this->body->getPosition().y < 0) 
+    if (this->body->getPosition().y < 0 || this->body->getPosition().y > win->getSize().y) 
     {
         return true;
     }
