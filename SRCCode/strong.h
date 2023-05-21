@@ -7,8 +7,9 @@ class strongEnemy: public enemy {
 private:
 
 public:
-strongEnemy();
-void shoot();
+strongEnemy(int x, int y, sf::Texture *text);
+
+~strongEnemy();
 
 };
 #endif

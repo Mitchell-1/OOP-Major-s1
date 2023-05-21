@@ -11,7 +11,6 @@ protected:
     unsigned short lives;
     unsigned short tempLives;
 
-
 public:
     bool isDying;
     bool isDead;

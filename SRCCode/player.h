@@ -23,13 +23,14 @@ bool left;
 bool right;
 bool isShooting;
 weapon * weapon;
+int maxReload = 50;
 int reload = 0;
 std::vector<Bullet*> bullets;
 
 public:
 
 Player();
-Player(int, int, int, sf::Texture* texture);
+Player(int, int, sf::Texture* texture);
 void draw(sf::RenderWindow * win);
 void bulletValidity(sf::RenderWindow * win);
 virtual void playerUpdate() {};

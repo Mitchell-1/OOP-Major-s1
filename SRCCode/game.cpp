@@ -10,11 +10,12 @@ game::game(int x, int y, std::string title)
 {
     texture = new sf::Texture;
     texture->loadFromFile("SRCCode/static/SpriteMap.png");
-    player = new Player(10, 800, 300, texture);
+    player = new Player(800, 800, texture);
     win = new sf::RenderWindow(sf::VideoMode(x,y),title);
     win->setFramerateLimit(200);
     initLevels();
-    levelCreate(level1);
+    levelCreate(level9);
+    //weakEnemy * weak = new weakEnemy(10, 10, 100, 500, this->texture);
 }
 
 game::~game(){};
@@ -59,8 +60,6 @@ void game::update()
     
     while (win->pollEvent(e)) 
     {
-        
-        
         if (e.type == sf::Event::Closed) 
         {
             win->close();
@@ -76,14 +75,22 @@ void game::update()
     {
         if (level[i] != nullptr)
         {
+            level[i]->shoot(this->enemyBullets);
             level[i]->update(win, player->getBullets());
+            
             if (level[i]->isDead)
             {
+                
                 delete level[i];
                 level[i] = nullptr;
             }
         }
     }
+    for (int i = 0; i < enemyBullets.size(); i++) 
+    {
+        enemyBullets.at(i)->update();
+    }
+
     player->update(win);
     }
     player->draw(win);
@@ -93,7 +100,7 @@ void game::update()
         if (level[i] != nullptr)
         {   
             level[i]->animation(gameClock);
-            level[i]->draw(win);
+            level[i]->draw(win, enemyBullets);
         }
     }
     if (gameClock.getElapsedTime().asSeconds() >= 1)
@@ -104,24 +111,41 @@ void game::update()
 
 void game::levelCreate(int (&levelArr)[30])
 {
+
 level = new enemy*[30];
 unsigned short count;
 unsigned int ArrPos = 0;
 for (int posY = 50; posY <win->getSize().y-50; posY+= 200) 
 {
     
-    for (int posX = 50; posX < win->getSize().x; posX+= win->getSize().x/10)
+    for (int posX = 10; posX < win->getSize().x; posX+= win->getSize().x/10)
     {
         if (ArrPos == 30)
             break;
         switch (levelArr[ArrPos]) {
             case 0: 
+            {
                 level[ArrPos] = nullptr;
                 break;
+            }
             case 1: 
-                enemy* en = new enemy(19, 10, posX, posY, this->texture);
-                level[ArrPos] = en;
+            {
+                weakEnemy* Wen = new weakEnemy(posX, posY, this->texture);
+                level[ArrPos] = Wen;
                 break;
+            }
+            case 2:
+            {
+                strongEnemy* Sen = new strongEnemy(posX, posY, this->texture);
+                level[ArrPos] = Sen;
+                break;
+            }
+            case 3:
+            {
+                fastEnemy* Fen = new fastEnemy(posX, posY, this->texture);
+                level[ArrPos] = Fen;
+                break;
+            }
         }
         ArrPos++;
     }

@@ -1,6 +1,7 @@
 #include "enemy.h"
 #include <cmath>
-
+#include<cstdlib>
+#include "powers.h"
 enemy::enemy() {
     this->max_health = 1;
     this->health = 1;
@@ -11,7 +12,7 @@ enemy::enemy() {
 };
 
 
-enemy::enemy(int len, int width, int x, int y, sf::Texture* text){
+enemy::enemy(int x, int y, sf::Texture* text){
     source = sf::IntRect(34, 2, 12, 12);
     body = new sf::Sprite();
     this->texture = new sf::Texture(*text);
@@ -37,6 +38,7 @@ enemy::enemy(int len, int width, int x, int y, sf::Texture* text){
 
 void enemy::update(sf::RenderWindow *win, std::vector<Bullet*> &Bullets) 
 {
+    
     if (isDying) 
     { 
         die();
@@ -56,6 +58,8 @@ void enemy::update(sf::RenderWindow *win, std::vector<Bullet*> &Bullets)
                 }  
             }          
         }
+
+        
         sf::Vector2f movement;
         if (body->getPosition().x >= win->getSize().x -(body->getGlobalBounds().width/2)) {
             movement.y += body->getGlobalBounds().height + 5;
@@ -71,12 +75,17 @@ void enemy::update(sf::RenderWindow *win, std::vector<Bullet*> &Bullets)
     }
 };
 
-void enemy::draw(sf::RenderWindow * win){
+void enemy::draw(sf::RenderWindow * win, std::vector<Bullet*> &enemyBullets){
+    for (int i = 0; i <enemyBullets.size(); i++)
+    {
+        std::cout << enemyBullets.size() << std::endl;
+        enemyBullets.at(i)->draw(win);
+    }
     win->draw(*body);
+
 };
 
 enemy::~enemy(){
-    std::cout << "end" << std::endl;
     this->body = nullptr;
     this->texture = nullptr;
     delete this->body;
@@ -98,11 +107,11 @@ void enemy::animation(sf::Clock &gameClock){
     {
             if(texture2)
             {   
-                this->source.left = 34;
+                this->source.left -= 16;
                 texture2 = false;
             }else 
             {
-                this->source.left = 50;
+                this->source.left += 16;
                 texture2 = true;
             }
         body->setTextureRect(source);
@@ -135,7 +144,8 @@ void enemy::die()
     }
     else
     {
-        body->setColor(sf::Color::Red);
+
+        body->setColor(sf::Color::Black);
         this->isDead = true;
     }
     
@@ -161,5 +171,32 @@ void enemy::takeDamage(int damage){
     } else {
         health -= damage;
 
+    }
+}
+
+void enemy::shoot(std::vector<Bullet*> &enemyBullets) {
+    //std::cout << "shoot" << std::endl;
+    std::srand((unsigned) deathClock.getElapsedTime().asMicroseconds());
+
+    float randomGen = fmod(rand(), 13.27);
+    std::cout << randomGen << std::endl;
+    if (randomGen <= 0.05) 
+    {
+        randomGen += 1;
+        Bullet* bullet = new Bullet(body->getPosition(), this->damage);
+        enemyBullets.push_back(bullet);
+    }
+    
+}
+
+void enemy::powerUpDrop() 
+{
+    std::srand((unsigned) std::time(NULL));
+
+    int randomGen = rand() % 15;
+
+    if (randomGen == 0) 
+    {
+        powerUp* powerup = new powerUp('h',body->getLocalBounds());
     }
 }

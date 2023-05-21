@@ -39,7 +39,6 @@ int level8[30] =   {3, 1, 3, 1, 3, 1, 3, 1, 3, 1,
 int level9[30] =   {3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 
                     2, 2, 2, 2, 2, 2, 2, 2, 2, 2,
                     1, 1, 1, 1, 1, 1, 1, 1, 1, 1,};
-int* levelList[9][30] = {{level1},{level2},{level3},{level4},{level5},{level6},{level7},{level8},{level9}};
 
 int level1Size = 10;
 int level2Size = 20;

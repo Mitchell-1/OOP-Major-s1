@@ -19,7 +19,7 @@ class Bullet
     Bullet(sf::Vector2f playerPos, int);
     ~Bullet();
     void draw(sf::RenderWindow *win);
-    void update(sf::RenderWindow *win);
+    void update();
 };
 
 #endif

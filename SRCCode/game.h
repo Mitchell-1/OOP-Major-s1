@@ -1,15 +1,17 @@
-
 #ifndef GAME_H
 #define GAME_H
 #include <string>
 #include <SFML/Graphics.hpp>
 #include "player.h"
 #include "enemy.h"
-#include "./enemyClasses/weak.h"
+#include "weak.h"
+#include "strong.h"
+#include "fast.h"
 #include <vector>
 #include "bullet.h"
 #include <stack> //for gamestates
 #include <queue> //for levels
+#include "powers.h"
 class game {
     private:
     sf::RenderWindow* win;
@@ -21,11 +23,15 @@ class game {
     sf::Clock dtClock;
     sf::Clock gameClock;
     std::queue<int*[30]> levels;
+    std::vector<powerUp*> currentPowerUps;
     int currentLevel = 0;
     float dt;
     sf::Texture* texture;
     int currentEn = 0;
+    std::vector<Bullet*> enemyBullets;
+
     public:
+    std::vector<Bullet*>& getBullets(){return this->enemyBullets;};
     game(int x, int y, std::string title);
     void run();
     void initLevels();

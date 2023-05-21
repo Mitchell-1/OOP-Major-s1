@@ -24,17 +24,20 @@ protected:
     int deathTime;
     sf::Clock hitTime;
     bool isHit = false;
+    std::vector<Bullet*> bullets;
+    double shootChance;
 public:
 virtual void die();
 
 enemy();
-enemy(int len, int width, int x, int y, sf::Texture *text);
+enemy(int x, int y, sf::Texture *text);
 
-
+void powerUpDrop();
 void update(sf::RenderWindow * win, std::vector<Bullet*>& Bullets);
-void draw(sf::RenderWindow * win);
-virtual void animation(sf::Clock &clock);
+void draw(sf::RenderWindow * win, std::vector<Bullet*> &enemyBullets);
+void animation(sf::Clock &clock);
 void takeDamage(int damage);
+void shoot(std::vector<Bullet*> &enemyBullets);
 ~enemy();
 
 };

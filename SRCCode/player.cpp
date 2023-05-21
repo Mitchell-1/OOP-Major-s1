@@ -15,7 +15,7 @@ Player::Player() {
 };
 
 
-Player::Player(int r, int x, int y, sf::Texture* text) {
+Player::Player(int x, int y, sf::Texture* text) {
     body = new sf::Sprite();
     this->texture = new sf::Texture(*text);
     body->setTexture(*texture);
@@ -84,7 +84,7 @@ void Player::bulletValidity(sf::RenderWindow* win)
     if (reload ==0) {
         if (isShooting){
             shoot();
-            reload = 50;
+            reload = maxReload;
         };
         }
     else {
@@ -105,7 +105,7 @@ void Player::update(sf::RenderWindow* win)
     body->move(movement);
     /*moves bullets after being shot*/
     for (int i = 0; i < bullets.size(); i++) {
-        bullets.at(i)->update(win);
+        bullets.at(i)->update();
     }
 
     bulletValidity(win);
@@ -130,21 +130,9 @@ void Player::shoot() {
 
 
 void Player::getPowerUp(powerUp power){
-    if (powerUpList.size() < 2){
-        this-> health += power.health;
-        this-> damage += power.damage;
-        this-> speed += power.speed;
-        this->tempLives += power.lives;
-        powerUpList.push_back(power);
-    };
 };
 
 void Player::removePowerUp(powerUp power){
-    this-> health -= power.health;
-    this-> damage -= power.damage;
-    this-> speed -= power.speed;
-    this->tempLives -= power.lives;
-    powerUpList.erase(powerUpList.begin());
 };
 
 

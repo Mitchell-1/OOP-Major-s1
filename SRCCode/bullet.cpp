@@ -25,7 +25,7 @@ void Bullet::draw(sf::RenderWindow * win){
     win->draw(*body);
 };
 
-void Bullet::update(sf::RenderWindow* win) {
+void Bullet::update() {
     sf::Vector2f movement;
     movement.y += speed;
     body->move(movement);
