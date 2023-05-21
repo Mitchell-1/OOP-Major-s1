@@ -20,7 +20,7 @@ Player::Player(int r, int x, int y, sf::Texture* text) {
     this->texture = new sf::Texture(*text);
     body->setTexture(*texture);
     body->setTextureRect(sf::IntRect(51, 18, 11, 11));
-    body->setScale(10, 10);
+    body->setScale(6,6);
     body->setPosition(x, y);
     body->setOrigin(body->getLocalBounds().width/2.f,body->getLocalBounds().height/2.f);
     body->setColor(sf::Color::Green);
@@ -32,6 +32,7 @@ Player::Player(int r, int x, int y, sf::Texture* text) {
     this->lives = 1 ;
     this->left = false;
     this->right = false;
+    this->isShooting = false;
 };
 
 

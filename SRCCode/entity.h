@@ -15,7 +15,7 @@ protected:
 public:
     bool isDying;
     bool isDead;
-    void takeDamage(int damage);
+    virtual void takeDamage(int damage) {};
 };
 
 #endif

@@ -12,6 +12,7 @@ enemy::enemy() {
 
 
 enemy::enemy(int len, int width, int x, int y, sf::Texture* text){
+    source = sf::IntRect(34, 2, 12, 12);
     body = new sf::Sprite();
     this->texture = new sf::Texture(*text);
     body->setTexture(*texture);
@@ -24,7 +25,7 @@ enemy::enemy(int len, int width, int x, int y, sf::Texture* text){
     this->isDead = false;
     this->isDying = false;
     this->texture2 = false;
-    this-> health = 1;
+    this-> health = 3;
     this-> damage = 1;
     this-> speed = 10;
     this->lives = 1 ;
@@ -84,6 +85,15 @@ enemy::~enemy(){
 };
 
 void enemy::animation(sf::Clock &gameClock){
+    if (isHit){
+        if (this->hitTime.getElapsedTime().asSeconds() < 0.2)
+            this->body->setColor(sf::Color::Red);
+        else
+        {
+            this->body->setColor(sf::Color::White);
+            this->isHit = false;
+        }
+    }
     if (gameClock.getElapsedTime().asSeconds() >= 1 && !isDying)
     {
             if(texture2)
@@ -107,19 +117,19 @@ void enemy::die()
     
     int timeDiff = deathClock.getElapsedTime().asMilliseconds() - deathTime;
 
-    if (timeDiff < 1000)
+    if (timeDiff < 100)
     {
         this->body->setColor(sf::Color::Red);
     }
-    else if (timeDiff >= 1000 && timeDiff < 3000)
+    else if (timeDiff >= 100 && timeDiff < 200)
     {
-        this->body->setColor(sf::Color::Green);
+        this->body->setColor(sf::Color::White);
     }
-    else if (timeDiff >= 3000 && timeDiff < 4000)
+    else if (timeDiff >= 200 && timeDiff < 300)
     {
         body->setTextureRect(sf::IntRect(34, 18, 12, 12));
     }
-    else if (timeDiff >= 4000 && timeDiff < 5000)
+    else if (timeDiff >= 300 && timeDiff < 400)
     {
         body->setScale(6, 6);
     }
@@ -130,3 +140,26 @@ void enemy::die()
     }
     
 };
+
+void enemy::takeDamage(int damage){
+    this->hitTime.restart();
+    this->isHit = true;
+    if (this->health <= damage) {
+        if (tempLives == 0) {
+            if (lives > 1)
+            {
+                lives --;
+            }
+            else 
+            {
+                isDying = true;
+            }
+        } else {
+            this->tempLives --;
+            this->health = max_health;
+        }
+    } else {
+        health -= damage;
+
+    }
+}

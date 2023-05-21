@@ -3,8 +3,7 @@
 #include <string>
 #include "bullet.h"
 #include "player.h"
-#include "state.h"
-#include "levels/level1.h"
+#include "levels/levels.h"
 #include <cmath>
 
 game::game(int x, int y, std::string title) 
@@ -14,20 +13,11 @@ game::game(int x, int y, std::string title)
     player = new Player(10, 800, 300, texture);
     win = new sf::RenderWindow(sf::VideoMode(x,y),title);
     win->setFramerateLimit(200);
-    initStates();
+    initLevels();
     levelCreate(level1);
 }
 
-game::~game() 
-{
-    delete this->win;
-
-    while (!this->states.empty()) 
-    {
-        delete this->states.top();
-        this->states.pop();
-    }
-}
+game::~game(){};
 
 void game::initStates() 
 {
@@ -129,11 +119,9 @@ for (int posY = 50; posY <win->getSize().y-50; posY+= 200)
                 level[ArrPos] = nullptr;
                 break;
             case 1: 
-                enemy * en = new enemy(19, 10, posX, posY, this->texture);
+                enemy* en = new enemy(19, 10, posX, posY, this->texture);
                 level[ArrPos] = en;
-                
                 break;
-            
         }
         ArrPos++;
     }
@@ -141,6 +129,21 @@ for (int posY = 50; posY <win->getSize().y-50; posY+= 200)
 }
 
 };
+
+void game::initLevels() {
+    /*
+    for (int i = 0; i <9; i++) 
+    {
+        int* levelTemp = *levelList[i];
+        levels.push(levelTemp);
+    }
+    levelCreate(levels.front());*/
+}
+
+void game::levelManager() 
+{   
+
+}
 
 void game::run() {
 
