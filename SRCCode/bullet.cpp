@@ -19,7 +19,6 @@ Bullet::~Bullet() {
     delete this->texture;
     this->texture = nullptr;
     this->body = nullptr;
-    //std::cout << "Bullet destroyed" << std::endl;
 }
 
 void Bullet::draw(sf::RenderWindow * win){

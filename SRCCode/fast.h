@@ -11,7 +11,7 @@ double shootChance;
 
 public:
 fastEnemy();
-fastEnemy(int x, int y, sf::Texture *text);
+fastEnemy(int x, int y, sf::Texture *text, int difficulty);
 
 ~fastEnemy();
 };

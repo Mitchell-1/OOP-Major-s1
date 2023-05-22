@@ -11,7 +11,7 @@ double shootChance;
 
 public:
 weakEnemy();
-weakEnemy(int x, int y, sf::Texture *text);
+weakEnemy(int x, int y, sf::Texture *text, int difficulty);
 
 ~weakEnemy();
 };

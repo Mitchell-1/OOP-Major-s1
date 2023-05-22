@@ -7,7 +7,7 @@ class strongEnemy: public enemy {
 private:
 
 public:
-strongEnemy(int x, int y, sf::Texture *text);
+strongEnemy(int x, int y, sf::Texture *text, int difficulty);
 
 ~strongEnemy();
 

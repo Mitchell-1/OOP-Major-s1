@@ -13,8 +13,7 @@ game::game(int x, int y, std::string title)
     player = new Player(800, 800, texture);
     win = new sf::RenderWindow(sf::VideoMode(x,y),title);
     win->setFramerateLimit(200);
-    initLevels();
-    levelCreate(level9);
+    levelManager();
     //weakEnemy * weak = new weakEnemy(10, 10, 100, 500, this->texture);
 }
 
@@ -47,8 +46,11 @@ void game::render()
 
 void game::update() 
 {
-    if (this->gameClock.getElapsedTime().asSeconds() >= 30000)
-        gameClock.restart().asSeconds();
+    if (currentEn == 0)
+    {
+        currentLevel++;
+        levelManager();
+    }
     this->updateDt();
     win->clear();
     
@@ -76,12 +78,13 @@ void game::update()
         if (level[i] != nullptr)
         {
                 level[i]->shoot(this->enemyBullets);
-                level[i]->update(win, player->getBullets(), enemyBullets);
+                level[i]->update(win, player->getBullets());
 
             
             if (level[i]->isDead)
             {
-                
+                currentEn --;
+                //std::cout << currentEn << std::endl;
                 delete level[i];
                 level[i] = nullptr;
             }
@@ -92,6 +95,7 @@ void game::update()
         enemyBullets.at(i)->update();
     }
 
+    bulletValidity();
     player->update(win);
     }
     player->draw(win);
@@ -101,9 +105,15 @@ void game::update()
         if (level[i] != nullptr)
         {   
             level[i]->animation(gameClock);
-            level[i]->draw(win, enemyBullets);
+            level[i]->draw(win);
         }
     }
+
+    for (int i = 0; i <enemyBullets.size(); i++)
+    {
+        enemyBullets.at(i)->draw(win);
+    }
+
     if (gameClock.getElapsedTime().asSeconds() >= 1)
         gameClock.restart();
     win->display();
@@ -114,12 +124,14 @@ void game::levelCreate(int (&levelArr)[30])
 {
 
 level = new enemy*[30];
+delete level;
+level = new enemy*[30];
 unsigned short count;
 unsigned int ArrPos = 0;
-for (int posY = 50; posY <win->getSize().y-50; posY+= 200) 
+for (int posY = 50; posY <win->getSize().y; posY+= 200) 
 {
     
-    for (int posX = 10; posX < win->getSize().x; posX+= win->getSize().x/10)
+    for (int posX = 50; posX < win->getSize().x; posX+= win->getSize().x/10)
     {
         if (ArrPos == 30)
             break;
@@ -131,19 +143,19 @@ for (int posY = 50; posY <win->getSize().y-50; posY+= 200)
             }
             case 1: 
             {
-                weakEnemy* Wen = new weakEnemy(posX, posY, this->texture);
+                weakEnemy* Wen = new weakEnemy(posX, posY, this->texture, this->difficulty);
                 level[ArrPos] = Wen;
                 break;
             }
             case 2:
             {
-                strongEnemy* Sen = new strongEnemy(posX, posY, this->texture);
+                strongEnemy* Sen = new strongEnemy(posX, posY, this->texture, this->difficulty);
                 level[ArrPos] = Sen;
                 break;
             }
             case 3:
             {
-                fastEnemy* Fen = new fastEnemy(posX, posY, this->texture);
+                fastEnemy* Fen = new fastEnemy(posX, posY, this->texture, this->difficulty);
                 level[ArrPos] = Fen;
                 break;
             }
@@ -155,19 +167,83 @@ for (int posY = 50; posY <win->getSize().y-50; posY+= 200)
 
 };
 
-void game::initLevels() {
-    /*
-    for (int i = 0; i <9; i++) 
+void game::bulletValidity() 
+{
+    if (!this->enemyBullets.empty()) 
     {
-        int* levelTemp = *levelList[i];
-        levels.push(levelTemp);
+            if(this->enemyBullets.at(0)->checkOutOfBounds(win)) /*only check first one, as it will always be the highest*/
+            {
+                /*remove bullet object and call destructor to free up memory*/
+
+                delete this->enemyBullets.at(0);
+
+                /*delete pointer from vector*/
+                this->enemyBullets.erase(enemyBullets.begin());
+            }           
     }
-    levelCreate(levels.front());*/
 }
 
 void game::levelManager() 
 {   
-
+    switch (currentLevel)
+    {
+    case 2:
+    {
+        levelCreate(level2);
+        currentEn = level2Size;
+        break;
+    }
+    case 3:
+    {
+        levelCreate(level3);
+        currentEn = level3Size;
+        break;
+    }
+    case 4:
+    {
+        levelCreate(level4);
+        currentEn = level4Size;
+        break;
+    }
+    case 5:
+    {
+        levelCreate(level5);
+        currentEn = level5Size;
+        break;
+    }
+    case 6:
+    {
+        levelCreate(level6);
+        currentEn = level6Size;
+        break;
+    }
+    case 7:
+    {
+        levelCreate(level7);
+        currentEn = level7Size;
+        break;
+    }
+    case 8:
+    {
+        levelCreate(level8);
+        currentEn = level8Size;
+        break;
+    }
+    case 9:
+    {
+        levelCreate(level9);
+        currentEn = level9Size;
+        break;
+    }
+    default:
+    {
+        currentLevel = 1;
+        difficulty ++;
+        levelCreate(level1);
+        currentEn = level1Size;
+        break;
+    }
+    }
 }
 
 void game::run() {

@@ -46,7 +46,7 @@ int level3Size = 20;
 int level4Size = 20;
 int level5Size = 24;
 int level6Size = 22;
-int level7Size = 24;
+int level7Size = 20;
 int level8Size = 30;
 int level9Size = 30;
 #endif

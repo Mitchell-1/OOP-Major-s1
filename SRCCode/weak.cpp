@@ -1,24 +1,25 @@
 #include "weak.h"
 #include "enemy.h"
-
-weakEnemy::weakEnemy(int x, int y, sf::Texture *text) : enemy(x, y, text)
+//calls the enemy constructor and sets the stats and sprites required of our "weak enemy" class
+weakEnemy::weakEnemy(int x, int y, sf::Texture *text, int difficulty) : enemy(x, y, text)
 {
     source = sf::IntRect(34, 2, 12, 12);
     body->setTextureRect(source);
     this->isDead = false;
     this->isDying = false;
     this->texture2 = false;
-    this-> health = 1;
-    this-> damage = 1;
-    this-> speed = 10;
-    this->lives = 1 ;
+    this-> health = 1 * difficulty;
+    this-> damage = 1 * difficulty;
+    this-> speed = 10 ;
+    this->lives = 1;
     this->tempLives = 0;
     this->direction = (0.05f * this->speed);
+    this->shootChance = 13.87;
 }
 
+//destroys the weak enemy the same as the enemy class
 weakEnemy::~weakEnemy()
 {
-    std::cout << "end Weak" << std::endl;
     this->body = nullptr;
     this->texture = nullptr;
     delete this->body;
