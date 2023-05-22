@@ -26,6 +26,8 @@ weapon * weapon;
 int maxReload = 50;
 int reload = 0;
 std::vector<Bullet*> bullets;
+sf::Clock hitTime;
+bool isHit = false;
 
 public:
 
@@ -39,9 +41,11 @@ void removePowerUp(powerUp);
 
 void processEvents(sf::Keyboard::Key key, bool checkPressed);
 std::vector<Bullet*>& getBullets(){return this->bullets;};
-void update(sf::RenderWindow* win);
-
+void update(sf::RenderWindow* win, std::vector<Bullet*>& Bullets);
+void hitReg(std::vector<Bullet*>& Bullets);
+void takeDamage(int damage);
 void shoot();
+int getLives() {return this->lives;};
 
 
 };

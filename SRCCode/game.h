@@ -30,6 +30,7 @@ class game {
     int currentEn = 0;
     std::vector<Bullet*> enemyBullets;
     int difficulty = 0;
+
     public:
     std::vector<Bullet*>& getBullets(){return this->enemyBullets;};
     game(int x, int y, std::string title);
@@ -43,7 +44,7 @@ class game {
     ~game();
     void updateDt();
     void bulletValidity();
-    void initStates();
+    void livesRender();
 
 };
 

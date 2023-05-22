@@ -14,29 +14,22 @@ game::game(int x, int y, std::string title)
     win = new sf::RenderWindow(sf::VideoMode(x,y),title);
     win->setFramerateLimit(200);
     levelManager();
-    //weakEnemy * weak = new weakEnemy(10, 10, 100, 500, this->texture);
 }
 
 game::~game(){};
 
-void game::initStates() 
-{
-    //this->states.push(new GameState(this->win));
-}
-
 void game::updateDt() 
 {
-    /*Updates the dt variable with the time it takes to update and rende rone frame*/
+    //Updates the dt (delta time) variable with the time it takes to update and render one frame
 
     this->dt = this->dtClock.restart().asSeconds();
     this->tpf = this->tickRate/(1/this->dt) + offset;
     this->offset = this->tpf-floor(this->tpf);
     this->tpf = floor(this->tpf);
-    //std::cout << "Seconds per frame: " << this->dt << ", ticks per frame: " << tpf << ", offset: " << offset << std::endl;
 }
 
 
-
+//renders the game window
 void game::render() 
 {
     win->clear();
@@ -44,22 +37,30 @@ void game::render()
     win->display();
 }
 
+
+//this function updates the game every frame and incorporates delta time to update the "physics" every tick
 void game::update() 
 {
+
+    // this if loop updates the level if all enemies are destroyed
     if (currentEn == 0)
     {
         currentLevel++;
         levelManager();
     }
+
     this->updateDt();
-    win->clear();
     
+    
+
+    //this for loop runs to create the "ticks" each frame has a certain amount of ticks based upon the tickRate and frameRate as determined in the updateDt function
     for (int i = 0; i < this->tpf; i++) 
     {
-        //std::cout << i << std::endl;
+
+    
     sf::Event e;
     
-    
+    //checks for any player input into the game such as movement or shooting
     while (win->pollEvent(e)) 
     {
         if (e.type == sf::Event::Closed) 
@@ -72,7 +73,7 @@ void game::update()
             {player->processEvents(e.key.code, false);}
     }
 
-    /*checks hit collision of bullets and enemies*/
+    //updates the enemies and potentially shoots, this also checks for collisions between enemies and player bullets
     for(int i = 0; i <30; i++)
     {
         if (level[i] != nullptr)
@@ -80,26 +81,32 @@ void game::update()
                 level[i]->shoot(this->enemyBullets);
                 level[i]->update(win, player->getBullets());
 
-            
+            //checks if the enemy is dead and if it is then it deletes it and removes it from the enemy list
             if (level[i]->isDead)
             {
                 currentEn --;
-                //std::cout << currentEn << std::endl;
                 delete level[i];
                 level[i] = nullptr;
             }
         }
     }
+    //updates all bullets that have been fired by the enemies
     for (int i = 0; i < enemyBullets.size(); i++) 
     {
         enemyBullets.at(i)->update();
     }
 
+
     bulletValidity();
-    player->update(win);
+    player->update(win, enemyBullets);
     }
+    win->clear();
+
+    livesRender();
     player->draw(win);
     
+
+    //this for loop draws all enemies and activates the animations
     for(int i = 0; i <30; i++)
     {
         if (level[i] != nullptr)
@@ -109,25 +116,29 @@ void game::update()
         }
     }
 
+    //draws all enemy sprites on the game window
     for (int i = 0; i <enemyBullets.size(); i++)
     {
         enemyBullets.at(i)->draw(win);
     }
 
+    //restarts the game clock responsible for the animations
     if (gameClock.getElapsedTime().asSeconds() >= 1)
         gameClock.restart();
+    
     win->display();
     
 }
 
+
+//this function creates the array of enemy objects and subclasses. It takes an array of ints and generates an object type based on the number in the array position
 void game::levelCreate(int (&levelArr)[30])
 {
-
-level = new enemy*[30];
-delete level;
 level = new enemy*[30];
 unsigned short count;
 unsigned int ArrPos = 0;
+
+//these nested for loops decide the position of the enemy objects within the game window
 for (int posY = 50; posY <win->getSize().y; posY+= 200) 
 {
     
@@ -135,6 +146,8 @@ for (int posY = 50; posY <win->getSize().y; posY+= 200)
     {
         if (ArrPos == 30)
             break;
+
+        //the switch case takes the input of the array and generates an enemy type based on which number is read e.g. 1 relates to the weak enemy and 0 is a blank space
         switch (levelArr[ArrPos]) {
             case 0: 
             {
@@ -167,6 +180,8 @@ for (int posY = 50; posY <win->getSize().y; posY+= 200)
 
 };
 
+
+//this function checks for the validity of all enemy fired bullets and removes them from the memory if they are invalid
 void game::bulletValidity() 
 {
     if (!this->enemyBullets.empty()) 
@@ -183,8 +198,11 @@ void game::bulletValidity()
     }
 }
 
+
+//this function manages which level is generated for the game
 void game::levelManager() 
 {   
+    // the switch case takes the variable current level and calls the level create function with the corresponding array of level. Game update handles which is the current level
     switch (currentLevel)
     {
     case 2:
@@ -246,6 +264,15 @@ void game::levelManager()
     }
 }
 
+void game::livesRender(){
+    for (int i = 0; i < player->getLives(); i++)
+    {
+        std::cout << i << std::endl;
+
+    }
+
+};
+//this function runs the game and loops it until the player closes the window
 void game::run() {
 
     while (win->isOpen()) 
@@ -253,3 +280,5 @@ void game::run() {
         this->update();
     }
 }
+
+
