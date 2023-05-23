@@ -168,7 +168,6 @@ void Player::hitReg(std::vector<Bullet*>& enemyBullets, std::vector<powerUp*>& c
                 {
                     powerUp *powerUpP;
                     powerUpP = currentPowerUps.at(i);
-                    powerUpList.push_back(powerUpP);
                     getPowerUp(currentPowerUps.at(i));
                     currentPowerUps.at(i)->hide();
                     currentPowerUps.erase(currentPowerUps.begin()+i);
@@ -213,7 +212,11 @@ void Player::shoot() {
 void Player::getPowerUp(powerUp* power){
     powerUpList.push_back(power);
     this->tempLives += power->health;
-    this->maxReload -= power->reload;
+    if (this->maxReload < power->reload)
+    {
+        maxReload = 1;
+    } else 
+        this->maxReload -= power->reload;
     sf::Clock* time = new sf::Clock;
     power->duration = time;
 };
@@ -225,8 +228,13 @@ void Player::removePowerUp(powerUp* power){
             this->tempLives -= power->health;
         if (power->damage < this->damage)
             this->damage -= power->damage;
-        if (power->reload + this->maxReload <50)
+        if (power->reload + this->maxReload <= 50)
+        {
             this->maxReload += power->reload;
+        } else 
+        {
+            this->maxReload = 50;
+        }
     }
 };
 
