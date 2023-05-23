@@ -5,10 +5,13 @@ powerUp::powerUp(char classType, sf::Vector2f enemyPos){
     switch (classType) {
         case 'h':
             this->health  = 1;
+            break;
         case 'd':
             this-> damage = 2;
+            break;
         case 's':
-            this->reload = -25;
+            this->reload = 25;
+            break;
     }
     body = new sf::Sprite();
     this->texture = new sf::Texture();
@@ -18,7 +21,6 @@ powerUp::powerUp(char classType, sf::Vector2f enemyPos){
     body->setPosition(enemyPos.x, enemyPos.y);
     body->setOrigin(body->getLocalBounds().width/2.f,body->getLocalBounds().height/2.f);
     body->setColor(sf::Color::Green);
-    std::cout << "powerup created" << std::endl;
 
 }
 
@@ -28,6 +30,8 @@ powerUp::~powerUp()
     delete this->texture;
     this->texture = nullptr;
     this->body = nullptr;
+    
+    
 };
 
 void powerUp::draw(sf::RenderWindow *win) 

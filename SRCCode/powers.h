@@ -18,6 +18,7 @@ class powerUp {
         unsigned short damage = 0;
         unsigned short reload = 0;
         unsigned short lives = 0;
+        bool isComplete = false;
         sf::Clock* duration;
         powerUp();
         void hide();

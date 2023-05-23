@@ -152,7 +152,6 @@ void Player::hitReg(std::vector<Bullet*>& enemyBullets, std::vector<powerUp*>& c
             {
                 if (body->getGlobalBounds().intersects(currentPowerUps.at(i)->getRect())) 
                 {
-                    
                     powerUpList.push_back(currentPowerUps.at(i));
                     getPowerUp(currentPowerUps.at(i));
                     currentPowerUps.at(i)->hide();
@@ -198,14 +197,20 @@ void Player::shoot() {
 void Player::getPowerUp(powerUp* power){
     powerUpList.push_back(power);
     this->tempLives += power->health;
+    this->maxReload -= power->reload;
     sf::Clock* time = new sf::Clock;
     power->duration = time;
 };
 
 void Player::removePowerUp(powerUp* power){
-    this->tempLives -= power->health;
-    this->damage -= power->damage;
-    this->maxReload -= power->reload;
+    if (!power->isComplete) 
+    {
+        std::cout << "check twice" << std::endl;
+        if (tempLives != 0)
+            this->tempLives -= power->health;
+        this->damage -= power->damage;
+        this->maxReload += power->reload;
+    }
 };
 
 
@@ -222,10 +227,12 @@ void Player::checkPowerTime()
 {
     if (!powerUpList.empty()) 
     {
-        if (powerUpList.at(0)->duration->getElapsedTime().asMilliseconds() == 15000) 
+        if (powerUpList.at(0)->duration->getElapsedTime().asMilliseconds() >= 5000) 
         {
+            std::cout << "check12" << std::endl;
+
             this->removePowerUp(powerUpList.at(0));
-            std::cout << "crash" << std::endl;
+            powerUpList.at(0)->isComplete = true;
             delete powerUpList.at(0);
             powerUpList.erase(powerUpList.begin());
         }
