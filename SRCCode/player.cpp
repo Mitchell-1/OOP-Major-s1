@@ -14,6 +14,20 @@ Player::Player() {
 
 };
 
+Player::Player(int x, int y){
+    body = new sf::Sprite();
+    body->setTextureRect(sf::IntRect(51, 18, 11, 11));
+    body->setScale(6,6);
+    body->setPosition(x, y);
+    this->max_health = 1;
+    this-> health = 1;
+    this-> damage = 1;
+    this-> speed = 10;
+    this->lives = 3;
+    this->left = false;
+    this->right = false;
+    this->isShooting = false;
+}
 
 Player::Player(int x, int y, sf::Texture* text) {
     body = new sf::Sprite();
@@ -116,7 +130,7 @@ void Player::update(sf::RenderWindow* win, std::vector<Bullet*>& Bullets, std::v
 
     bulletValidity(win);
 
-    checkPowerTime();
+    checkPowerTime(currentPowerUps);
     //Collision detection with screen and player
 
     //Left Collision
@@ -152,7 +166,9 @@ void Player::hitReg(std::vector<Bullet*>& enemyBullets, std::vector<powerUp*>& c
             {
                 if (body->getGlobalBounds().intersects(currentPowerUps.at(i)->getRect())) 
                 {
-                    powerUpList.push_back(currentPowerUps.at(i));
+                    powerUp *powerUpP;
+                    powerUpP = currentPowerUps.at(i);
+                    powerUpList.push_back(powerUpP);
                     getPowerUp(currentPowerUps.at(i));
                     currentPowerUps.at(i)->hide();
                     currentPowerUps.erase(currentPowerUps.begin()+i);
@@ -205,11 +221,12 @@ void Player::getPowerUp(powerUp* power){
 void Player::removePowerUp(powerUp* power){
     if (!power->isComplete) 
     {
-        std::cout << "check twice" << std::endl;
         if (tempLives != 0)
             this->tempLives -= power->health;
-        this->damage -= power->damage;
-        this->maxReload += power->reload;
+        if (power->damage < this->damage)
+            this->damage -= power->damage;
+        if (power->reload + this->maxReload <50)
+            this->maxReload += power->reload;
     }
 };
 
@@ -223,14 +240,12 @@ void Player::draw(sf::RenderWindow * win){
     
 };
 
-void Player::checkPowerTime() 
+void Player::checkPowerTime(std::vector<powerUp*>& currentPowerUps) 
 {
     if (!powerUpList.empty()) 
     {
-        if (powerUpList.at(0)->duration->getElapsedTime().asMilliseconds() >= 5000) 
+        if (powerUpList.at(0)->duration->getElapsedTime().asMicroseconds() >= 5000000) 
         {
-            std::cout << "check12" << std::endl;
-
             this->removePowerUp(powerUpList.at(0));
             powerUpList.at(0)->isComplete = true;
             delete powerUpList.at(0);

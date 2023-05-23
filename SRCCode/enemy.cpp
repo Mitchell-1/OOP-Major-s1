@@ -219,7 +219,7 @@ void enemy::powerUpDrop(std::vector<powerUp*> &powerups)
 {
     std::srand((unsigned) std::time(NULL));
 
-    int randomGen = rand() % 1;
+    int randomGen = rand() % 15;
 
     if (randomGen == 0) 
     {
@@ -232,19 +232,16 @@ void enemy::powerUpDrop(std::vector<powerUp*> &powerups)
             case 1:
             {
                 powerup = new powerUp('s',this->body->getPosition());
-                std::cout << "s" << std::endl;
                 break;
             }
             case 2:
             {
                 powerup = new powerUp('h',this->body->getPosition());
-                std::cout << "h" << std::endl;
                 break;
             }
             case 3:
             {
                 powerup = new powerUp('d',this->body->getPosition());
-                std::cout << "d" << std::endl;
                 break;
             }
         }

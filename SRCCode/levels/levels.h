@@ -2,14 +2,14 @@
 #define LEVELS_H
 //1 is weak, 2 is strong, 3 is fast shooting
 
-
-
+class levelList{
+public:
 int level1[30] =   {1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
                     0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
                     0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 
 int level2[30] =   {1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-                    1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+                    2, 1, 1, 1, 2, 2, 1, 1, 1, 2,
                     0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 
 int level3[30] =   {1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
@@ -49,4 +49,7 @@ int level6Size = 22;
 int level7Size = 20;
 int level8Size = 30;
 int level9Size = 30;
+};
+
+
 #endif

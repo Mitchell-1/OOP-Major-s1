@@ -28,6 +28,7 @@ powerUp::~powerUp()
 {
     delete this->body;
     delete this->texture;
+    delete this->duration;
     this->texture = nullptr;
     this->body = nullptr;
     

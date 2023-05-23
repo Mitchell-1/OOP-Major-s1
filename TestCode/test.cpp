@@ -1,43 +1,49 @@
-#include "../SRCCode/game.h"
-#include <string>
-
+#include "test.h"
+#include "../SRCCode/levels/levels.h"
 
 int main(){
+std::cout << std::endl;
 game g1(1600, 900, "testGame");
-int gamePasses = gameTests();
-int playerPasses = playerTests();
-int enemyPasses = enemyTests();
+g1.gameTest();
+
+int gamePasses = gameTests(g1);
+
 
 if (gamePasses == 4)
     {
-        std::cout << "All Game tests passed" << std::endl;
+        std::cout << "All Game tests passed" << std::endl << std::endl;
     } else
     {
-        std::cout << gamePasses << "/5 Game tests passed" << std::endl;
+        std::cout << gamePasses << "/4 Game tests passed" << std::endl << std::endl;
     }
+
+int playerPasses = playerTests();
 
 if (playerPasses == 5)
     {
-        std::cout << "All player tests passed" << std::endl;
+        std::cout << "All player tests passed" << std::endl << std::endl;
     } else
     {
-        std::cout << playerPasses << " Player tests passed" << std::endl;
+        std::cout << playerPasses << " Player tests passed" << std::endl << std::endl;
     }
+
+int enemyPasses = enemyTests();
 if (enemyPasses == 5)
     {
-        std::cout << "All enemy tests passed" << std::endl;
+        std::cout << "All enemy tests passed" << std::endl << std::endl;
     } else
     {
-        std::cout << enemyPasses << " Enemy tests passed" << std;
+        std::cout << enemyPasses << " Enemy tests passed" << std::endl << std::endl;
     }
 }
 
-int gameTests(game testGame)
+int gameTests(game& testGame)
 {
+    std::cout << "Game tests" << std::endl;
     int testsPassed = 0;
     int inCorr = 0;
 
-    if (testGame.getCurrLevel() == 1);
+    if (testGame.getCurrLevel() == 1)
         testsPassed++;
     else 
         std::cout << "First level loading test failed" << std::endl;
@@ -46,37 +52,43 @@ int gameTests(game testGame)
         {
             std::cout << "level change system test passed" << std::endl;
             testsPassed++;
-            enemy ** testLevel = game.getLevel();
-            for (int i = 0; i < level1Size; i++){
-                switch(level2[i])
-                case: 0
-                    if (testLevel[i] != nullptr)
-                    {
+            levelList allLevels;
+            enemy ** testLevel = testGame.getLevel();
+            for (int i = 0; i < 30; i++)
+            {
+                switch(allLevels.level2[i])
+                {
+                    case 0:
+                        if (testLevel[i] != nullptr)
+                        {
+                            inCorr++;
+                            
+                        }
+                        break;
+                    case 1:
+                        if (testLevel[i]->getType() != 'w')
+                        {
+                            inCorr++;
+                        }
+                        break;
+                    case 2:
+                        if (testLevel[i]->getType() != 's')
+                        {
+                            inCorr++;
+                        }
+                        break;
+                    case 3:
+                    if (testLevel[i]->getType() != 'f')
+                        {
+                            inCorr++;
+                        }
+                        break;
+                    default:
                         inCorr++;
-                    }
-                    
-                case: 1
-                    if (enemy[i]->getType() != 'w')
-                    {
-                        inCorr++;
-                    }
-                    break;
-                case: 2
-                    if (enemy[i]->getType() != 's')
-                    {
-                        inCorr++;
-                    }
-                    break;
-                case: 3
-                if (enemy[i]->getType() != 'f')
-                    {
-                        inCorr++;
-                    }
-                    break;
-                default:
-                    incorr++;
+                        break;
+                }
             }
-            if (incor == 0)
+            if (inCorr == 0)
             {
                 std::cout << "level loading test passed" << std::endl;
                 testsPassed++;
@@ -84,23 +96,38 @@ int gameTests(game testGame)
                 std::cout << "level loading test failed" << std::endl;
         } else
             std::cout << "level changing test failed" << std::endl << "Subsequently level loading test unable to run" << std::endl;
-
-    testGame.updateDt();
-    float desiredTPF = testGame.getframeCap()/testGame.getTickRate();
-    if (testGame.getTPF() > desiredtpf-1 && testGame.getTPF() < desiredtpf +1)
+    float desiredTPF = testGame.getTickRate()/(testGame.getframeCap());
+    if (testGame.getTPF() > desiredTPF-1 && testGame.getTPF() < desiredTPF +1)
     {   
         std::cout << "delta time test passed" << std::endl;
         testsPassed ++;
-    }else;
+    }else
+    {
+        std::cout << testGame.getTPF() << " : " << desiredTPF << std::endl;
         std::cout << "delta time test failed" << std:: endl;
-}
+    }
+        return testsPassed;
+};
 
 int playerTests() 
 {
+    std::cout << "Player tests" << std::endl;
 
-}
+    int testsPassed = 0;
+
+    std::vector<powerUp*> TestPowerUps;
+    powerUp* testP = new powerUp('h')
+    TestPowerUps.push_back(testP);
+
+    std::vector<Bullet*> testBullets;
+    Bullet * testB
+
+    return testsPassed;
+};
 
 int enemyTests()
 {
-
-}
+    std::cout << "Enemy tests" << std::endl;
+    return 3;
+    
+};

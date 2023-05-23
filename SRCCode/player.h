@@ -30,8 +30,8 @@ sf::Clock hitTime;
 bool isHit = false;
 
 public:
-
 Player();
+Player(int, int);
 Player(int, int, sf::Texture* texture);
 void draw(sf::RenderWindow * win);
 void bulletValidity(sf::RenderWindow * win);
@@ -43,7 +43,7 @@ void processEvents(sf::Keyboard::Key key, bool checkPressed);
 std::vector<Bullet*>& getBullets(){return this->bullets;};
 void update(sf::RenderWindow* win, std::vector<Bullet*>& Bullets, std::vector<powerUp*>& currentPowerUps);
 void hitReg(std::vector<Bullet*>& Bullets, std::vector<powerUp*>& currentPowerUps);
-void checkPowerTime();
+void checkPowerTime(std::vector<powerUp*>& currentPowerUps);
 void takeDamage(int damage);
 void shoot();
 int getLives() {return this->lives;};

@@ -12,6 +12,9 @@
 #include <stack> //for gamestates
 #include <queue> //for levels
 #include "powers.h"
+#include "levels/levels.h"
+
+
 class game {
     private:
     sf::RenderWindow* win;
@@ -31,6 +34,7 @@ class game {
     std::vector<Bullet*> enemyBullets;
     int difficulty = 0;
     int frameCap = 200;
+    levelList allLevels;
 
     public:
     void powerValidity();
@@ -50,6 +54,7 @@ class game {
     ~game();
     void updateDt();
     void bulletValidity();
+    void gameTest();
     void livesRender();
 
 };

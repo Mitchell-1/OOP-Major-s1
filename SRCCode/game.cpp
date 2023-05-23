@@ -3,7 +3,7 @@
 #include <string>
 #include "bullet.h"
 #include "player.h"
-#include "levels/levels.h"
+
 #include <cmath>
 
 game::game(int x, int y, std::string title) 
@@ -21,7 +21,6 @@ game::~game(){};
 void game::updateDt() 
 {
     //Updates the dt (delta time) variable with the time it takes to update and render one frame
-
     this->dt = this->dtClock.restart().asSeconds();
     this->tpf = this->tickRate/(1/this->dt) + offset;
     this->offset = this->tpf-floor(this->tpf);
@@ -45,7 +44,6 @@ void game::update()
     // this if loop updates the level if all enemies are destroyed
     if (currentEn == 0)
     {
-        currentLevel++;
         levelManager();
     }
 
@@ -232,63 +230,64 @@ void game::bulletValidity()
 //this function manages which level is generated for the game
 void game::levelManager() 
 {   
-    // the switch case takes the variable current level and calls the level create function with the corresponding array of level. Game update handles which is the current level
+    currentLevel++;
+    // the switch case takes the variable current level and calls the level create function with the corresponding array of level
     switch (currentLevel)
     {
     case 2:
     {
-        levelCreate(level2);
-        currentEn = level2Size;
+        levelCreate(allLevels.level2);
+        currentEn = allLevels.level2Size;
         break;
     }
     case 3:
     {
-        levelCreate(level3);
-        currentEn = level3Size;
+        levelCreate(allLevels.level3);
+        currentEn = allLevels.level3Size;
         break;
     }
     case 4:
     {
-        levelCreate(level4);
-        currentEn = level4Size;
+        levelCreate(allLevels.level4);
+        currentEn = allLevels.level4Size;
         break;
     }
     case 5:
     {
-        levelCreate(level5);
-        currentEn = level5Size;
+        levelCreate(allLevels.level5);
+        currentEn = allLevels.level5Size;
         break;
     }
     case 6:
     {
-        levelCreate(level6);
-        currentEn = level6Size;
+        levelCreate(allLevels.level6);
+        currentEn = allLevels.level6Size;
         break;
     }
     case 7:
     {
-        levelCreate(level7);
-        currentEn = level7Size;
+        levelCreate(allLevels.level7);
+        currentEn = allLevels.level7Size;
         break;
     }
     case 8:
     {
-        levelCreate(level8);
-        currentEn = level8Size;
+        levelCreate(allLevels.level8);
+        currentEn = allLevels.level8Size;
         break;
     }
     case 9:
     {
-        levelCreate(level9);
-        currentEn = level9Size;
+        levelCreate(allLevels.level9);
+        currentEn = allLevels.level9Size;
         break;
     }
     default:
     {
         currentLevel = 1;
         difficulty ++;
-        levelCreate(level1);
-        currentEn = level1Size;
+        levelCreate(allLevels.level1);
+        currentEn = allLevels.level1Size;
         break;
     }
     }
@@ -311,3 +310,7 @@ void game::run() {
 }
 
 
+void game::gameTest()
+{
+    win->close();
+}

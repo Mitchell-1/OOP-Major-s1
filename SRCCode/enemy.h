@@ -27,8 +27,8 @@ protected:
     std::vector<Bullet*> bullets;
     float shootChance;
 public:
-virtual void die(std::vector<powerUp*>& powerups);
 
+virtual void die(std::vector<powerUp*>& powerups);
 enemy();
 enemy(int x, int y, sf::Texture *text);
 char getType() {return this->type;};
