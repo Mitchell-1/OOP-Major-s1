@@ -1,7 +1,11 @@
 all: compile link
 
+oFiles := $(wildcard *.o)
+oFilesRun := $(filter-out test.o, $(oFiles))
+
+
 compile:
 	g++ -Isrc/include -c SRCCode/*.cpp -std=c++14
 
 link:
-	g++ *.o -o main -Lsrc/lib -lsfml-graphics -lsfml-window -lsfml-system -lopengl32
+	g++ $(oFilesRun) -o main -Lsrc/lib -lsfml-graphics -lsfml-window -lsfml-system -lopengl32
