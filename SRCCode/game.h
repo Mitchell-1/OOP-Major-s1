@@ -30,12 +30,18 @@ class game {
     int currentEn = 0;
     std::vector<Bullet*> enemyBullets;
     int difficulty = 0;
+    int frameCap = 200;
 
     public:
+    void powerValidity();
+    enemy** getLevel() {return level;};
+    int getCurrLevel() {return currentLevel;};
+    int getTickRate() {return tickRate;};
+    int getframeCap() {return frameCap;};
+    float getTPF() {return tpf;};
     std::vector<Bullet*>& getBullets(){return this->enemyBullets;};
     game(int x, int y, std::string title);
     void run();
-    void initLevels();
     void levelManager();
     void levelCreate(int (&levelArr)[30]);
     void render();

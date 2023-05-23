@@ -12,7 +12,7 @@ Bullet::Bullet(sf::Vector2f player, int damage, float speed) {
     texture->loadFromFile("SRCCode/static/bullet.png");
     body->setTexture(*texture);
     body->setScale(0.1f, 0.2f);
-    body->setPosition(player.x, player.y-50);
+    body->setPosition(player.x, player.y);
     body->setOrigin(body->getLocalBounds().width/2,body->getLocalBounds().height/2);
     
     //assigning the stats for the bullets

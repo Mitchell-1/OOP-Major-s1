@@ -8,18 +8,21 @@ class powerUp {
         sf::Sprite* body;
         sf::Texture* texture;
         bool isConsumed;
-        sf::Clock duration;
         char name;
         int time;
         float speed = 5;
+        bool isActive = true;
 
     public:
         unsigned short health = 0;
         unsigned short damage = 0;
         unsigned short reload = 0;
         unsigned short lives = 0;
+        sf::Clock* duration;
         powerUp();
-        powerUp(char classType, sf::FloatRect enemyPos);
+        void hide();
+        powerUp(char classType, sf::Vector2f enemyPos);
+        sf::FloatRect getRect() {return body->getGlobalBounds();}
         void draw(sf::RenderWindow *win);
         void update();
         bool checkOutOfBounds(sf::RenderWindow *win);

@@ -18,7 +18,7 @@ protected:
 sf::Sprite* body;
 sf::Texture* texture;
 std::string classType;
-std::vector<powerUp> powerUpList;
+std::vector<powerUp*> powerUpList;
 bool left;
 bool right;
 bool isShooting;
@@ -36,13 +36,14 @@ Player(int, int, sf::Texture* texture);
 void draw(sf::RenderWindow * win);
 void bulletValidity(sf::RenderWindow * win);
 virtual void playerUpdate() {};
-void getPowerUp(powerUp);
-void removePowerUp(powerUp);
+void getPowerUp(powerUp* power);
+void removePowerUp(powerUp* power);
 
 void processEvents(sf::Keyboard::Key key, bool checkPressed);
 std::vector<Bullet*>& getBullets(){return this->bullets;};
-void update(sf::RenderWindow* win, std::vector<Bullet*>& Bullets);
-void hitReg(std::vector<Bullet*>& Bullets);
+void update(sf::RenderWindow* win, std::vector<Bullet*>& Bullets, std::vector<powerUp*>& currentPowerUps);
+void hitReg(std::vector<Bullet*>& Bullets, std::vector<powerUp*>& currentPowerUps);
+void checkPowerTime();
 void takeDamage(int damage);
 void shoot();
 int getLives() {return this->lives;};

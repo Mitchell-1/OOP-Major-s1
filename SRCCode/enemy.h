@@ -27,12 +27,13 @@ protected:
     std::vector<Bullet*> bullets;
     float shootChance;
 public:
-virtual void die();
+virtual void die(std::vector<powerUp*>& powerups);
 
 enemy();
 enemy(int x, int y, sf::Texture *text);
-void powerUpDrop();
-void update(sf::RenderWindow * win, std::vector<Bullet*>& Bullets);
+char getType() {return this->type;};
+void powerUpDrop(std::vector<powerUp*> &powerups);
+void update(sf::RenderWindow * win, std::vector<Bullet*>& Bullets, std::vector<powerUp*>& powerups);
 sf::Vector2f getBody();
 sf::FloatRect getGlobal();
 void draw(sf::RenderWindow * win);

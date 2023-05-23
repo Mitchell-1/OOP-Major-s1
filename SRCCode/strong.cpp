@@ -15,6 +15,7 @@ strongEnemy::strongEnemy(int x, int y, sf::Texture *text, int difficulty) : enem
     this->tempLives = 0;
     this->direction = (0.05f * this->speed);
     this->shootChance = 13.87;
+    this->type = 's';
 }
 
 //destroys the strong enemy the same as the enemy class

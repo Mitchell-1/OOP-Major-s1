@@ -32,6 +32,7 @@ enemy::enemy(int x, int y, sf::Texture* text){
     this->tempLives = 0;
     this->direction = (0.05f * this->speed);
     this->shootChance = 13.87;
+    this->type = 'b';
 };
 
 
@@ -40,12 +41,12 @@ enemy::enemy(int x, int y, sf::Texture* text){
 this function updates the enemy and is written to be able to update inherited classes of enemy
 This function takes the game window and all bullets created by the player
 */
-void enemy::update(sf::RenderWindow *win, std::vector<Bullet*> &Bullets) 
+void enemy::update(sf::RenderWindow *win, std::vector<Bullet*> &Bullets, std::vector<powerUp*>& powerups) 
 {
     //checks if the enemy is dying or not and if it is, rather than updating it triggers the death function
     if (isDying) 
-    { 
-        die();
+    {
+        die(powerups);
     }
     else
     {
@@ -140,7 +141,7 @@ void enemy::animation(sf::Clock &gameClock){
 
 
 //this death function handles the animations and colour updates once the enemy is dead
-void enemy::die()
+void enemy::die(std::vector<powerUp*>& powerups)
 {
     
     int timeDiff = deathClock.getElapsedTime().asMilliseconds() - deathTime;
@@ -166,6 +167,7 @@ void enemy::die()
     {
 
         body->setColor(sf::Color::Black);
+        powerUpDrop(powerups);
         this->isDead = true;
     }
     
@@ -213,15 +215,41 @@ void enemy::shoot(std::vector<Bullet*> &enemyBullets) {
     
 }
 
-void enemy::powerUpDrop() 
+void enemy::powerUpDrop(std::vector<powerUp*> &powerups) 
 {
     std::srand((unsigned) std::time(NULL));
 
-    int randomGen = rand() % 15;
+    int randomGen = rand() % 1;
 
     if (randomGen == 0) 
     {
-        powerUp* powerup = new powerUp('h',body->getLocalBounds());
+        randomGen += 1;
+
+        int randPower = (rand() % 3) +1;
+        powerUp* powerup;
+        switch (randPower) 
+        {
+            case 1:
+            {
+                powerup = new powerUp('s',this->body->getPosition());
+                std::cout << "s" << std::endl;
+                break;
+            }
+            case 2:
+            {
+                powerup = new powerUp('h',this->body->getPosition());
+                std::cout << "h" << std::endl;
+                break;
+            }
+            case 3:
+            {
+                powerup = new powerUp('d',this->body->getPosition());
+                std::cout << "d" << std::endl;
+                break;
+            }
+        }
+        powerups.push_back(powerup);
+
     }
 }
 

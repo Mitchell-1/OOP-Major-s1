@@ -12,7 +12,7 @@ game::game(int x, int y, std::string title)
     texture->loadFromFile("SRCCode/static/SpriteMap.png");
     player = new Player(800, 800, texture);
     win = new sf::RenderWindow(sf::VideoMode(x,y),title);
-    win->setFramerateLimit(200);
+    win->setFramerateLimit(frameCap);
     levelManager();
 }
 
@@ -79,7 +79,7 @@ void game::update()
         if (level[i] != nullptr)
         {
                 level[i]->shoot(this->enemyBullets);
-                level[i]->update(win, player->getBullets());
+                level[i]->update(win, player->getBullets(), currentPowerUps);
 
             //checks if the enemy is dead and if it is then it deletes it and removes it from the enemy list
             if (level[i]->isDead)
@@ -95,10 +95,18 @@ void game::update()
     {
         enemyBullets.at(i)->update();
     }
-
+    if (!currentPowerUps.empty()) 
+    {
+        for (int i = 0; i < currentPowerUps.size(); i++) 
+        {   
+                currentPowerUps.at(i)->update();
+        }
+    }
 
     bulletValidity();
-    player->update(win, enemyBullets);
+    powerValidity();
+    player->update(win, enemyBullets, currentPowerUps);
+    
     }
     win->clear();
 
@@ -121,7 +129,14 @@ void game::update()
     {
         enemyBullets.at(i)->draw(win);
     }
-
+    if (!currentPowerUps.empty()) 
+    {
+        for (int i=0; i < currentPowerUps.size(); i++)
+        {
+            currentPowerUps.at(i)->draw(win);
+            
+        }
+    }
     //restarts the game clock responsible for the animations
     if (gameClock.getElapsedTime().asSeconds() >= 1)
         gameClock.restart();
@@ -130,6 +145,21 @@ void game::update()
     
 }
 
+void game::powerValidity() 
+{
+    if (!currentPowerUps.empty()) 
+    {
+            if(currentPowerUps.at(0)->checkOutOfBounds(win)) /*only check first one, as it will always be the highest*/
+            {
+
+                delete currentPowerUps.at(0);
+
+                /*delete pointer from vector*/
+
+                currentPowerUps.erase(currentPowerUps.begin());
+            }            
+    }
+}
 
 //this function creates the array of enemy objects and subclasses. It takes an array of ints and generates an object type based on the number in the array position
 void game::levelCreate(int (&levelArr)[30])
@@ -267,7 +297,6 @@ void game::levelManager()
 void game::livesRender(){
     for (int i = 0; i < player->getLives(); i++)
     {
-        std::cout << i << std::endl;
 
     }
 

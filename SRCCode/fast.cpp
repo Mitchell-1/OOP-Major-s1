@@ -16,6 +16,7 @@ fastEnemy::fastEnemy(int x, int y, sf::Texture *text, int difficulty) : enemy(x,
     this->tempLives = 0;
     this->direction = (0.05f * this->speed);
     this->shootChance = 9.58/(difficulty/3);
+    this->type = 'f';
 }
 
 

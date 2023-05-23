@@ -15,6 +15,7 @@ weakEnemy::weakEnemy(int x, int y, sf::Texture *text, int difficulty) : enemy(x,
     this->tempLives = 0;
     this->direction = (0.05f * this->speed);
     this->shootChance = 13.87;
+    this->type = 'w';
 }
 
 //destroys the weak enemy the same as the enemy class

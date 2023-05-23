@@ -92,8 +92,9 @@ void Player::bulletValidity(sf::RenderWindow* win)
     }
 }
 
+
 //update player position and data, with bullets encapsulated
-void Player::update(sf::RenderWindow* win, std::vector<Bullet*>& Bullets) 
+void Player::update(sf::RenderWindow* win, std::vector<Bullet*>& Bullets, std::vector<powerUp*>& currentPowerUps) 
 {
                          //check if any movement has been made
     if (isDying)
@@ -111,9 +112,11 @@ void Player::update(sf::RenderWindow* win, std::vector<Bullet*>& Bullets)
         bullets.at(i)->update();
     }
 
-    hitReg(Bullets);
+    hitReg(Bullets, currentPowerUps);
 
     bulletValidity(win);
+
+    checkPowerTime();
     //Collision detection with screen and player
 
     //Left Collision
@@ -123,22 +126,39 @@ void Player::update(sf::RenderWindow* win, std::vector<Bullet*>& Bullets)
     //Right Collision
         if (body->getPosition().x + (body->getGlobalBounds().width)/2 > win->getSize().x)
             body->setPosition(win->getSize().x - (body->getGlobalBounds().width)/2, body->getPosition().y);
+
+    
 };
 
-void Player::hitReg(std::vector<Bullet*>& Bullets)
+void Player::hitReg(std::vector<Bullet*>& enemyBullets, std::vector<powerUp*>& currentPowerUps)
 {
-if (!Bullets.empty()) //checks if there are any bullets in the vector to avoid potential errors
+        if (!enemyBullets.empty()) //checks if there are any Bullets in the vector to avoid potential errors
         {
-            //loops through all of the bullets in the vector and checks if the bullet collision box intersects with the enemy hitbox and if it does then it triggers takedamage()
-            for (int i = 0; i < Bullets.size(); i++){ 
-                if(body->getGlobalBounds().intersects(Bullets.at(i)->getRect())) 
+            //loops through all of the enemyBullets in the vector and checks if the bullet collision box intersects with the enemy hitbox and if it does then it triggers takedamage()
+            for (int i = 0; i < enemyBullets.size(); i++){ 
+                if(body->getGlobalBounds().intersects(enemyBullets.at(i)->getRect())) 
                 {
-                    takeDamage(Bullets.at(i)->getDamage());
-                    //deletes the bullet from memory and then erases its position from the vector 
-                    delete Bullets.at(i);
-                    Bullets.erase(Bullets.begin()+i);
+                    takeDamage(enemyBullets.at(i)->getDamage());
+                    //deletes the bullet from memory and then erases the pointer at its position from the vector 
+                    delete enemyBullets.at(i);
+                    enemyBullets.erase(enemyBullets.begin()+i);
                 }  
             }          
+        }
+
+        if (!currentPowerUps.empty()) 
+        {
+            for (int i = 0; i < currentPowerUps.size(); i++) 
+            {
+                if (body->getGlobalBounds().intersects(currentPowerUps.at(i)->getRect())) 
+                {
+                    
+                    powerUpList.push_back(currentPowerUps.at(i));
+                    getPowerUp(currentPowerUps.at(i));
+                    currentPowerUps.at(i)->hide();
+                    currentPowerUps.erase(currentPowerUps.begin()+i);
+                }
+            }
         }
 };
 
@@ -175,10 +195,17 @@ void Player::shoot() {
 }
 
 
-void Player::getPowerUp(powerUp power){
+void Player::getPowerUp(powerUp* power){
+    powerUpList.push_back(power);
+    this->tempLives += power->health;
+    sf::Clock* time = new sf::Clock;
+    power->duration = time;
 };
 
-void Player::removePowerUp(powerUp power){
+void Player::removePowerUp(powerUp* power){
+    this->tempLives -= power->health;
+    this->damage -= power->damage;
+    this->maxReload -= power->reload;
 };
 
 
@@ -190,3 +217,17 @@ void Player::draw(sf::RenderWindow * win){
     win->draw(*body);
     
 };
+
+void Player::checkPowerTime() 
+{
+    if (!powerUpList.empty()) 
+    {
+        if (powerUpList.at(0)->duration->getElapsedTime().asMilliseconds() == 15000) 
+        {
+            this->removePowerUp(powerUpList.at(0));
+            std::cout << "crash" << std::endl;
+            delete powerUpList.at(0);
+            powerUpList.erase(powerUpList.begin());
+        }
+    }
+}
