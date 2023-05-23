@@ -157,7 +157,7 @@ void enemy::die(std::vector<powerUp*>& powerups)
     }
     else if (timeDiff >= 200 && timeDiff < 300)
     {
-        body->setTextureRect(sf::IntRect(34, 18, 12, 12));
+        body->setTextureRect(sf::IntRect(34+32, 18, 12, 12));
     }
     else if (timeDiff >= 300 && timeDiff < 400)
     {
@@ -219,7 +219,7 @@ void enemy::powerUpDrop(std::vector<powerUp*> &powerups)
 {
     std::srand((unsigned) std::time(NULL));
 
-    int randomGen = rand() % 15;
+    int randomGen = rand() % 1;
 
     if (randomGen == 0) 
     {

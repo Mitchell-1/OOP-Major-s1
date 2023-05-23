@@ -16,7 +16,7 @@ Player::Player() {
 
 Player::Player(int x, int y){
     body = new sf::Sprite();
-    body->setTextureRect(sf::IntRect(51, 18, 11, 11));
+    body->setTextureRect(sf::IntRect(80, 17, 15, 15));
     body->setScale(6,6);
     body->setPosition(x, y);
     this->max_health = 1;
@@ -33,7 +33,7 @@ Player::Player(int x, int y, sf::Texture* text) {
     body = new sf::Sprite();
     this->texture = new sf::Texture(*text);
     body->setTexture(*texture);
-    body->setTextureRect(sf::IntRect(51, 18, 11, 11));
+    body->setTextureRect(sf::IntRect(80, 17, 15, 15));
     body->setScale(6,6);
     body->setPosition(x, y);
     body->setOrigin(body->getLocalBounds().width/2.f,body->getLocalBounds().height/2.f);
@@ -112,8 +112,9 @@ void Player::update(sf::RenderWindow* win, std::vector<Bullet*>& Bullets, std::v
 {
                          //check if any movement has been made
     if (isDying)
-        win->close();
-
+    {
+        //win->close();
+    }
     sf::Vector2f movement;
     if (left)
         movement.x -= (0.5 * speed);
@@ -140,6 +141,17 @@ void Player::update(sf::RenderWindow* win, std::vector<Bullet*>& Bullets, std::v
     //Right Collision
         if (body->getPosition().x + (body->getGlobalBounds().width)/2 > win->getSize().x)
             body->setPosition(win->getSize().x - (body->getGlobalBounds().width)/2, body->getPosition().y);
+
+    //check if shield
+
+    if (tempLives >= 1) 
+    {
+        body->setTextureRect(sf::IntRect(17, 17, 15, 15));
+    }
+    else 
+    {
+        body->setTextureRect(sf::IntRect(78,17,15,15));
+    }
 
     
 };
@@ -222,8 +234,6 @@ void Player::getPowerUp(powerUp* power){
 };
 
 void Player::removePowerUp(powerUp* power){
-    if (!power->isComplete) 
-    {
         if (tempLives != 0)
             this->tempLives -= power->health;
         if (power->damage < this->damage)
@@ -235,7 +245,8 @@ void Player::removePowerUp(powerUp* power){
         {
             this->maxReload = 50;
         }
-    }
+        delete power->duration;
+        delete power;
 };
 
 
@@ -252,12 +263,14 @@ void Player::checkPowerTime(std::vector<powerUp*>& currentPowerUps)
 {
     if (!powerUpList.empty()) 
     {
-        if (powerUpList.at(0)->duration->getElapsedTime().asMicroseconds() >= 5000000) 
+        for (int i = 0; i < powerUpList.size(); i++) 
         {
-            this->removePowerUp(powerUpList.at(0));
-            powerUpList.at(0)->isComplete = true;
-            delete powerUpList.at(0);
-            powerUpList.erase(powerUpList.begin());
+            if (powerUpList.at(i)->duration->getElapsedTime().asMicroseconds() >= 7500000) 
+            {
+                this->removePowerUp(powerUpList.at(i));
+                powerUpList.erase(powerUpList.begin());
+            }
         }
+
     }
 }

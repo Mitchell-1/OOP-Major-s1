@@ -147,15 +147,17 @@ void game::powerValidity()
 {
     if (!currentPowerUps.empty()) 
     {
-            if(currentPowerUps.at(0)->checkOutOfBounds(win)) /*only check first one, as it will always be the highest*/
-            {
-
-                delete currentPowerUps.at(0);
+        for (int i = 0; i < currentPowerUps.size(); i++) 
+        {
+            if(currentPowerUps.at(i)->checkOutOfBounds(win))
+                delete currentPowerUps.at(i);
 
                 /*delete pointer from vector*/
 
-                currentPowerUps.erase(currentPowerUps.begin());
-            }            
+                currentPowerUps.erase(currentPowerUps.begin()+i);
+            }  
+        }
+          
     }
 }
 

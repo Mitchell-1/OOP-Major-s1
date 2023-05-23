@@ -3,7 +3,7 @@
 //calls the enemy constructor and sets the stats and sprites required of our "strong enemy" class
 strongEnemy::strongEnemy(int x, int y, sf::Texture *text, int difficulty) : enemy(x, y, text)
 {
-    source = sf::IntRect(2, 2, 12, 12);
+    source = sf::IntRect(2+32, 2, 12, 12);
     body->setTextureRect(source);
     this->isDead = false;
     this->isDying = false;
