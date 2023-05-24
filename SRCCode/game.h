@@ -9,17 +9,17 @@
 #include "fast.h"
 #include <vector>
 #include "bullet.h"
-#include <stack> //for gamestates
 #include <queue> //for levels
 #include "powers.h"
 #include "levels/levels.h"
-
+#include "livesUi.h"
 
 class game {
     private:
     sf::RenderWindow* win;
     Player* player;
     enemy ** level;
+    LivesUi * livesUi;
     float offset = 0;
     float tpf;
     int tickRate = 60;
@@ -50,12 +50,10 @@ class game {
     void levelCreate(int (&levelArr)[30]);
     void render();
     void update();
-    float deltaTime (float, float);
     ~game();
     void updateDt();
     void bulletValidity();
     void gameTest();
-    void livesRender();
 
 };
 

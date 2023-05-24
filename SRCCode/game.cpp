@@ -3,7 +3,7 @@
 #include <string>
 #include "bullet.h"
 #include "player.h"
-
+#include "livesUi.h"
 #include <cmath>
 
 game::game(int x, int y, std::string title) 
@@ -12,6 +12,7 @@ game::game(int x, int y, std::string title)
     texture->loadFromFile("SRCCode/static/SpriteMap.png");
     player = new Player(800, 800, texture);
     win = new sf::RenderWindow(sf::VideoMode(x,y),title);
+    livesUi = new LivesUi(player->getLives(), texture);
     win->setFramerateLimit(frameCap);
     levelManager();
 }
@@ -104,11 +105,11 @@ void game::update()
     bulletValidity();
     powerValidity();
     player->update(win, enemyBullets, currentPowerUps);
-    
+    livesUi->update(player->getLives());
     }
     win->clear();
 
-    livesRender();
+    livesUi->draw(win);
     player->draw(win);
     
 
@@ -150,6 +151,7 @@ void game::powerValidity()
         for (int i = 0; i < currentPowerUps.size(); i++) 
         {
             if(currentPowerUps.at(i)->checkOutOfBounds(win))
+            {
                 delete currentPowerUps.at(i);
 
                 /*delete pointer from vector*/
@@ -295,13 +297,6 @@ void game::levelManager()
     }
 }
 
-void game::livesRender(){
-    for (int i = 0; i < player->getLives(); i++)
-    {
-
-    }
-
-};
 //this function runs the game and loops it until the player closes the window
 void game::run() {
 
