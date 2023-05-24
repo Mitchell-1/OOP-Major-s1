@@ -25,8 +25,9 @@ game::game(int x, int y, std::string title)
     scoreText->setFont(*font);
     scoreText->setString("Score: " + std::to_string(this->score));
     scoreText->setFillColor(sf::Color::White);
-    scoreText->setCharacterSize(22);
-    scoreText->setPosition(50,845);
+    scoreText->setCharacterSize(11);
+    scoreText->setScale(2, 2);
+    scoreText->setPosition(1300,50);
     win->setFramerateLimit(frameCap);
     levelManager();
 }
