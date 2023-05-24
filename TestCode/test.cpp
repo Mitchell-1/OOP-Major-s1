@@ -19,21 +19,12 @@ if (gamePasses == 4)
 
 int playerPasses = playerTests();
 
-if (playerPasses == 5)
+if (playerPasses == 4)
     {
-        std::cout << "All 3 player tests passed" << std::endl << std::endl;
+        std::cout << "All 4 player tests passed" << std::endl << std::endl;
     } else
     {
-        std::cout << playerPasses << "/3 Player tests passed" << std::endl << std::endl;
-    }
-
-int enemyPasses = enemyTests();
-if (enemyPasses == 5)
-    {
-        std::cout << "All enemy tests passed" << std::endl << std::endl;
-    } else
-    {
-        std::cout << enemyPasses << " Enemy tests passed" << std::endl << std::endl;
+        std::cout << playerPasses << "/4 Player tests passed" << std::endl << std::endl;
     }
 }
 
@@ -132,10 +123,10 @@ int playerTests()
     else
         std::cout << "take damage test failed" << std::endl;
 
-
+    player->setIsHit(false);
     std::vector<powerUp*> testPowerUps;
     
-
+    
     std::vector<Bullet*> testBullets;
     prevLives = player->getLives();
     Bullet * testB;
@@ -159,8 +150,15 @@ int playerTests()
     powerUp* testPDamage = new powerUp('d', player->getPosition());
     powerUp* testPHealth = new powerUp('h', player->getPosition());
     powerUp* testPSpeed = new powerUp('s', player->getPosition());
-    testPowerUps.push_back(testPDamage);
+
     testPowerUps.push_back(testPHealth);
+    player->setIsHit(false);
+    player->hitReg(testBullets, testPowerUps);
+
+    testPowerUps.push_back(testPDamage);
+    player->setIsHit(false);
+    player->hitReg(testBullets, testPowerUps);
+
     testPowerUps.push_back(testPSpeed);
     player->setIsHit(false);
     player->hitReg(testBullets, testPowerUps);

@@ -176,7 +176,7 @@ void Player::hitReg(std::vector<Bullet*>& enemyBullets, std::vector<powerUp*>& c
 {
     if (!isHit)
     {
-        std::cout << "Hit reg" << std::endl;
+        
         if (!enemyBullets.empty()) //checks if there are any Bullets in the vector to avoid potential errors
         {
             //loops through all of the enemyBullets in the vector and checks if the bullet collision box intersects with the enemy hitbox and if it does then it triggers takedamage()
@@ -212,7 +212,6 @@ void Player::takeDamage(int damage)
 {
     this->hitTime.restart(); //restarts the clock so that the animations can work properly
     this->isHit = true;
-
     //these if statements check all possibilites for taking damage and act accordingly
     if (this->health <= this->damage) {
         if (this->tempLives == 0) {
@@ -228,7 +227,7 @@ void Player::takeDamage(int damage)
                 this->isDying = true; //kills the player if they don't have extra lives
             }
         } else {
-
+            
             this->tempLives --; //reduces temp lives if there are any remaining
             this->health = max_health;
         }
@@ -248,7 +247,7 @@ void Player::shoot() {
 void Player::getPowerUp(powerUp* power){
     powerUpList.push_back(power);
     this->tempLives += power->health;
-    if (this->maxReload < power->reload)
+    if (this->maxReload <= power->reload)
     {
         maxReload = 1;
     } else 
@@ -256,6 +255,7 @@ void Player::getPowerUp(powerUp* power){
     this->damage += power->damage;
     sf::Clock* time = new sf::Clock;
     power->duration = time;
+    //std::cout << this->tempLives  << std::endl;
 };
 
 void Player::removePowerUp(powerUp* power){
