@@ -15,7 +15,7 @@ Menu::Menu(int highScore, sf::Texture *title, sf::Texture *enter, sf::Texture *e
     Enter->setCharacterSize(11);
     Enter->setScale(5,5);
     Enter->setOrigin(Enter->getLocalBounds().width/2, Enter->getLocalBounds().height/2);
-    Enter->setPosition(800,500);
+    Enter->setPosition(800,530);
     texts.push_back(Enter); 
 
     sf::Sprite *player = new sf::Sprite();
@@ -54,8 +54,9 @@ Menu::Menu(int highScore, sf::Texture *title, sf::Texture *enter, sf::Texture *e
     {
         std::getline(scoreFile, this->highScore);
         std::getline(scoreFile, this->score);
-        scoreFile.close();
+        
     }
+    scoreFile.close();
     
 
     sf::Text * highScoreText = new sf::Text();
@@ -63,7 +64,7 @@ Menu::Menu(int highScore, sf::Texture *title, sf::Texture *enter, sf::Texture *e
     highScoreText->setString("HIGH SCORE: " + this->highScore);
     highScoreText->setFillColor(sf::Color::White);
     highScoreText->setCharacterSize(11);
-    highScoreText->setScale(5,5);
+    highScoreText->setScale(3,3);
     highScoreText->setOrigin(highScoreText->getLocalBounds().width/2, highScoreText->getLocalBounds().height/2);
     highScoreText->setPosition(800,400);
     texts.push_back(highScoreText); 
@@ -73,7 +74,7 @@ Menu::Menu(int highScore, sf::Texture *title, sf::Texture *enter, sf::Texture *e
     currentScoreText->setString("PREV SCORE: " + this->score);
     currentScoreText->setFillColor(sf::Color::White);
     currentScoreText->setCharacterSize(11);
-    currentScoreText->setScale(5,5);
+    currentScoreText->setScale(3,3);
     currentScoreText->setOrigin(currentScoreText->getLocalBounds().width/2, currentScoreText->getLocalBounds().height/2);
     currentScoreText->setPosition(800,450);
     texts.push_back(currentScoreText); 
@@ -124,10 +125,30 @@ void Menu::update(sf::RenderWindow *win, bool &menu, sf::Clock &timer)
     {
         win->draw(*sprites.at(i));
     }
+    animate();
     for (int i = 0; i < texts.size(); i++)
     {
         win->draw(*texts.at(i));
     }
+
     win->display();
 };
 
+void Menu::animate() 
+{
+    if (aniClock.getElapsedTime().asSeconds() >= 1)
+    {
+            if(black)
+            {   
+                this->texts.at(0)->setFillColor(sf::Color::Black);
+                black = false;
+            }else 
+            {
+                this->texts.at(0)->setFillColor(sf::Color::White);
+                black = true;
+                
+            }
+        aniClock.restart();
+    }
+    
+}

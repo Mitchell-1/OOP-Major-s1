@@ -11,11 +11,14 @@ class Menu {
     std::vector<sf::Text*> texts;
     std::string highScore;
     std::string score;
+    sf::Clock aniClock;
+    bool black = false;
     public:
     Menu(int highScore, sf::Texture *title, sf::Texture *enter, sf::Texture *enemies, sf::Font *font);
     void update(sf::RenderWindow *win, bool &menu, sf::Clock &timer);
     void draw();
     std::string getHighScore() {return this->highScore;}
+    void animate();
     ~Menu();
 };
 

@@ -176,6 +176,7 @@ void Player::hitReg(std::vector<Bullet*>& enemyBullets, std::vector<powerUp*>& c
 {
     if (!isHit)
     {
+        std::cout << "Hit reg" << std::endl;
         if (!enemyBullets.empty()) //checks if there are any Bullets in the vector to avoid potential errors
         {
             //loops through all of the enemyBullets in the vector and checks if the bullet collision box intersects with the enemy hitbox and if it does then it triggers takedamage()
@@ -297,4 +298,8 @@ void Player::checkPowerTime(std::vector<powerUp*>& currentPowerUps)
         }
 
     }
+}
+
+void Player::setIsHit(bool isHit){
+    this->isHit = isHit;
 }

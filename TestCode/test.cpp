@@ -162,7 +162,7 @@ int playerTests()
     testPowerUps.push_back(testPDamage);
     testPowerUps.push_back(testPHealth);
     testPowerUps.push_back(testPSpeed);
-
+    player->setIsHit(false);
     player->hitReg(testBullets, testPowerUps);
 
     int currTempLives = player->getTempLives();
@@ -197,21 +197,24 @@ int playerTests()
 
     if (corr == 3) 
     {
-        testspassed++;
+        testsPassed++;
         std::cout << "all power up tests passed, hit registration successful" << std::endl;
     } else
-        std::cout << "not all power ups successful"
+        std::cout << "not all power ups successful" << std::endl;
 
     player->shoot();
 
-    if (!player->getBullets().isEmpty())
+    if (!player->getBullets().empty())
     {
         if (player->getBullets().at(0)->getDamage() != 0)
             {
-            std::cout << "player shooting test passed" << std::endl
-            testspassed++;
+            std::cout << "player shooting test passed" << std::endl;
+            testsPassed++;
             } else
-                std::cout << "player shooting test failed" << std::endl
+                {
+                    std::cout << "player shooting test failed" << player->getBullets().at(0)->getDamage() << std::endl;
+                }
+                
     }
 
     return testsPassed;

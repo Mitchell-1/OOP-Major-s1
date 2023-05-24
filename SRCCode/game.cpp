@@ -23,9 +23,8 @@ game::game(int x, int y, std::string title)
     player = new Player(800, 850, texture);
     win = new sf::RenderWindow(sf::VideoMode(x,y),title);
     livesUi = new LivesUi(player->getLives(), texture);
+    menu = new Menu(score, titleTexture, enterTexture, texture, font);
     scoreText = new sf::Text;
-
-
     scoreText->setFont(*font);
     scoreText->setString("Score: " + std::to_string(this->score));
     scoreText->setFillColor(sf::Color::White);
@@ -182,24 +181,21 @@ void game::endOfGame()
         std::string tempHighScore;
         std::string tempScore;
         
-        std::ofstream newFile;
-        newFile.open("SRCCode/static/temp.txt");
-        if (newFile.is_open()) 
+        std::ofstream scoreFile;
+        scoreFile.open("SRCCode/static/score.txt", std::ofstream::trunc);
+        if (scoreFile.is_open()) 
         {
             if (this->score > std::stoi(this->menu->getHighScore())) 
             {
-                tempHighScore = std::to_string(this->score);
+                tempHighScore = std::to_string(static_cast<long unsigned int>(this->score));
             }
-            tempScore = std::to_string(this->score);
-            newFile << tempHighScore << std::endl;
-            newFile << tempScore << std::endl;
-            newFile.close();
+            tempScore = std::to_string(static_cast<long unsigned int>(this->score));
+            scoreFile << tempHighScore << std::endl;
+            scoreFile << tempScore << std::endl;
         }
-
-        int result = std::remove("score.txt");
-        std::cout << result << std::endl;
-        std::rename("temp.txt","score.txt");
+        scoreFile.close();
         delete menu;
+        menu = new Menu(score, titleTexture, enterTexture, texture, font);
         this->isMenu = true;
         
 }
@@ -364,7 +360,6 @@ void game::run() {
     {   
         if (this->isMenu)
         {
-            menu = new Menu(score, titleTexture, enterTexture, texture, font);
             menu->update(win, this->isMenu, scoreTime);
         }
         else 

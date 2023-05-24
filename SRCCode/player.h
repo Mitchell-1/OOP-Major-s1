@@ -33,6 +33,7 @@ sf::IntRect source(){return sf::IntRect(81, 16, 15, 15);};
 
 
 public:
+void setIsHit(bool isHit);
 Player();
 Player(int, int);
 Player(int, int, sf::Texture* texture);
