@@ -50,6 +50,10 @@ void checkPowerTime(std::vector<powerUp*>& currentPowerUps);
 void takeDamage(int damage);
 void shoot();
 int getLives() {return this->lives;};
+int getTempLives() {return this->tempLives;};
+int getReload() {return this->reload;};
+int getDamage() {return this->damage;};
+bool getisDying() {return this->isDying;};
 sf::Vector2f getPosition() {return this->body->getPosition();};
 void animation();
 

@@ -3,15 +3,20 @@
 #include <SFML/Graphics.hpp>
 #include <vector>
 #include <iostream>
+#include <string>
 
 class Menu {
     private:
     std::vector<sf::Sprite*> sprites;//position 0 is press enter text
-    int highScore;
+    std::vector<sf::Text*> texts;
+    std::string highScore;
+    std::string score;
     public:
-    Menu(int highScore, sf::Texture *title, sf::Texture *enter, sf::Texture *enemies);
+    Menu(int highScore, sf::Texture *title, sf::Texture *enter, sf::Texture *enemies, sf::Font *font);
     void update(sf::RenderWindow *win, bool &menu, sf::Clock &timer);
     void draw();
+    std::string getHighScore() {return this->highScore;}
+    ~Menu();
 };
 
 #endif

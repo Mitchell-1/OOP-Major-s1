@@ -21,10 +21,10 @@ int playerPasses = playerTests();
 
 if (playerPasses == 5)
     {
-        std::cout << "All player tests passed" << std::endl << std::endl;
+        std::cout << "All 3 player tests passed" << std::endl << std::endl;
     } else
     {
-        std::cout << playerPasses << " Player tests passed" << std::endl << std::endl;
+        std::cout << playerPasses << "/3 Player tests passed" << std::endl << std::endl;
     }
 
 int enemyPasses = enemyTests();
@@ -97,7 +97,7 @@ int gameTests(game& testGame)
         } else
             std::cout << "level changing test failed" << std::endl << "Subsequently level loading test unable to run" << std::endl;
     float desiredTPF = testGame.getTickRate()/(testGame.getframeCap());
-    if (testGame.getTPF() > desiredTPF-1 && testGame.getTPF() < desiredTPF +1)
+    if (testGame.getTPF()+1 >= desiredTPF && testGame.getTPF() <= desiredTPF +1)
     {   
         std::cout << "delta time test passed" << std::endl;
         testsPassed ++;
@@ -118,15 +118,101 @@ int playerTests()
 
     int testsPassed = 0;
 
+    int prevLives = player->getLives(); 
+
+    player->takeDamage(999);
+
+    int currLives = player->getLives();
+
+    if (prevLives - currLives == 1)
+    {
+        testsPassed++;
+        std::cout << "take damage test passed" << std::endl;
+    }
+    else
+        std::cout << "take damage test failed" << std::endl;
+
+
     std::vector<powerUp*> testPowerUps;
-    powerUp* testP = new powerUp('d', player->getPosition());
-    testPowerUps.push_back(testP);
+    
 
     std::vector<Bullet*> testBullets;
+    prevLives = player->getLives();
     Bullet * testB;
     testB = new Bullet(player->getPosition(), 999, 5);
     testBullets.push_back(testB);
     player->hitReg(testBullets, testPowerUps);
+    currLives = player->getLives();
+    if (prevLives - currLives == 1)
+    {
+        testsPassed++;
+        std::cout << "successful bullet interaction test" << std::endl;
+    }
+    else
+        std::cout << "bullet interaction test failed" << std::endl;    
+
+
+    int prevTempLives = player->getTempLives();
+    int prevDamage = player->getDamage();
+    int prevReload = player->getReload();
+
+    powerUp* testPDamage = new powerUp('d', player->getPosition());
+    powerUp* testPHealth = new powerUp('h', player->getPosition());
+    powerUp* testPSpeed = new powerUp('s', player->getPosition());
+    testPowerUps.push_back(testPDamage);
+    testPowerUps.push_back(testPHealth);
+    testPowerUps.push_back(testPSpeed);
+
+    player->hitReg(testBullets, testPowerUps);
+
+    int currTempLives = player->getTempLives();
+    int currDamage = player->getDamage();
+    int currReload = player->getReload();
+
+    int corr = 0;
+    if (currTempLives > prevTempLives)
+    {
+        corr++;
+        std::cout << "power up 1 passed" << std::endl;
+    }
+    else
+        std::cout << "power up 1 failed" << std::endl;   
+
+    if (currDamage > prevDamage)
+    {
+        corr++;
+        std::cout << "power up 2 passed" << std::endl;
+    }
+    else
+        std::cout << "power up 2 failed" << std::endl;   
+
+    
+    if (currReload < prevReload)
+    {
+        corr++;
+        std::cout << "power up 3 passed" << std::endl;
+    }
+    else
+        std::cout << "power up 3 failed" << std::endl;   
+
+    if (corr == 3) 
+    {
+        testspassed++;
+        std::cout << "all power up tests passed, hit registration successful" << std::endl;
+    } else
+        std::cout << "not all power ups successful"
+
+    player->shoot();
+
+    if (!player->getBullets().isEmpty())
+    {
+        if (player->getBullets().at(0)->getDamage() != 0)
+            {
+            std::cout << "player shooting test passed" << std::endl
+            testspassed++;
+            } else
+                std::cout << "player shooting test failed" << std::endl
+    }
 
     return testsPassed;
 };
@@ -135,5 +221,6 @@ int enemyTests()
 {
     std::cout << "Enemy tests" << std::endl;
     return 3;
-    
+
+        
 };

@@ -6,6 +6,8 @@
 #include "livesUi.h"
 #include <cmath>
 #include <string>
+#include <fstream>
+#include <cstdio>
 game::game(int x, int y, std::string title) 
 {
     titleTexture = new sf::Texture;
@@ -14,20 +16,22 @@ game::game(int x, int y, std::string title)
     enterTexture->loadFromFile("SRCCode/static/EnterPNG.png");
     
     texture = new sf::Texture;
-    texture->loadFromFile("SRCCode/static/SpriteMap.png");
-    menu = new Menu(score, titleTexture, enterTexture, texture);
-    player = new Player(800, 800, texture);
+    texture->loadFromFile("SRCCode/static/SpriteMap.png");    
+    font = new sf::Font;
+    font->loadFromFile("SRCCode/static/aqui.pcf");
+    
+    player = new Player(800, 850, texture);
     win = new sf::RenderWindow(sf::VideoMode(x,y),title);
     livesUi = new LivesUi(player->getLives(), texture);
     scoreText = new sf::Text;
-    font = new sf::Font;
-    font->loadFromFile("SRCCode/static/aqui.pcf");
+
+
     scoreText->setFont(*font);
     scoreText->setString("Score: " + std::to_string(this->score));
     scoreText->setFillColor(sf::Color::White);
     scoreText->setCharacterSize(11);
-    scoreText->setScale(2, 2);
-    scoreText->setPosition(1300,50);
+    scoreText->setScale(2.5, 2.5);
+    scoreText->setPosition(1300,30);
     win->setFramerateLimit(frameCap);
     levelManager();
 }
@@ -86,6 +90,11 @@ void game::update()
             {player->processEvents(e.key.code, true);}
         if (e.type == sf::Event::KeyReleased)
             {player->processEvents(e.key.code, false);}
+    }
+
+    if (this->player->getisDying()) 
+    {
+        endOfGame();
     }
 
     //updates the enemies and potentially shoots, this also checks for collisions between enemies and player bullets
@@ -165,6 +174,34 @@ void game::update()
     
     win->display();
     this->updateDt();
+}
+
+void game::endOfGame() 
+{
+
+        std::string tempHighScore;
+        std::string tempScore;
+        
+        std::ofstream newFile;
+        newFile.open("SRCCode/static/temp.txt");
+        if (newFile.is_open()) 
+        {
+            if (this->score > std::stoi(this->menu->getHighScore())) 
+            {
+                tempHighScore = std::to_string(this->score);
+            }
+            tempScore = std::to_string(this->score);
+            newFile << tempHighScore << std::endl;
+            newFile << tempScore << std::endl;
+            newFile.close();
+        }
+
+        int result = std::remove("score.txt");
+        std::cout << result << std::endl;
+        std::rename("temp.txt","score.txt");
+        delete menu;
+        this->isMenu = true;
+        
 }
 
 void game::powerValidity() 
@@ -327,6 +364,7 @@ void game::run() {
     {   
         if (this->isMenu)
         {
+            menu = new Menu(score, titleTexture, enterTexture, texture, font);
             menu->update(win, this->isMenu, scoreTime);
         }
         else 

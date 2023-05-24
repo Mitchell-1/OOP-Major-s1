@@ -36,6 +36,6 @@ void LivesUi::update(int lives)
     }
     for (int i = 0; i < this->lives; i++) 
     {
-        livesSprites.at(i)->setPosition(20+(50*i),50);
+        livesSprites.at(i)->setPosition(20+(50*i),30);
     }
 }

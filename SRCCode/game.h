@@ -22,7 +22,7 @@ class game {
     enemy ** level;
     LivesUi * livesUi;
     float offset = 0;
-    float tpf = 1;
+    float tpf = 0;
     int tickRate = 90;
     sf::Clock dtClock;
     sf::Clock gameClock;
@@ -47,6 +47,7 @@ class game {
 
 
     public:
+    void endOfGame();
     void powerValidity();
     enemy** getLevel() {return level;};
     int getCurrLevel() {return currentLevel;};

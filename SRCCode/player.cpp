@@ -1,6 +1,6 @@
 #include <SFML/Graphics.hpp>
 #include "player.h"
-
+#include <fstream>
 
 Player::Player() {
     this-> health = 1;
@@ -27,6 +27,7 @@ Player::Player(int x, int y){
     this->left = false;
     this->right = false;
     this->isShooting = false;
+    this->tempLives = 0;
 }
 
 Player::Player(int x, int y, sf::Texture* text) {
@@ -39,6 +40,7 @@ Player::Player(int x, int y, sf::Texture* text) {
     body->setOrigin(body->getLocalBounds().width/2.f,body->getLocalBounds().height/2.f);
     body->setColor(sf::Color::Green);
 
+    this->tempLives = 0;
     this->max_health = 1;
     this-> health = 1;
     this-> damage = 1;
@@ -47,6 +49,7 @@ Player::Player(int x, int y, sf::Texture* text) {
     this->left = false;
     this->right = false;
     this->isShooting = false;
+    this->isDying = false;
 };
 
 
@@ -124,7 +127,7 @@ void Player::update(sf::RenderWindow* win, std::vector<Bullet*>& Bullets, std::v
                          //check if any movement has been made
     if (isDying)
     {
-        //std::cout << "dead" <<std::endl;
+        
     }
     if (isHit)
         animation();
@@ -179,6 +182,7 @@ void Player::hitReg(std::vector<Bullet*>& enemyBullets, std::vector<powerUp*>& c
             for (int i = 0; i < enemyBullets.size(); i++){ 
                 if(body->getGlobalBounds().intersects(enemyBullets.at(i)->getRect())) 
                 {
+
                     takeDamage(enemyBullets.at(i)->getDamage());
                     //deletes the bullet from memory and then erases the pointer at its position from the vector 
                     delete enemyBullets.at(i);
@@ -209,23 +213,27 @@ void Player::takeDamage(int damage)
     this->isHit = true;
 
     //these if statements check all possibilites for taking damage and act accordingly
-    if (this->health <= damage) {
-        if (tempLives == 0) {
-            if (lives > 1)
+    if (this->health <= this->damage) {
+        if (this->tempLives == 0) {
+            if (this->lives > 1)
             {
-                lives --; // reducing lives if the player has several and has too low of hp
+
+                this->lives --; // reducing lives if the player has several and has too low of hp
                 this->health =max_health;
             }
             else 
             {
-                isDying = true; //kills the player if they don't have extra lives
+
+                this->isDying = true; //kills the player if they don't have extra lives
             }
         } else {
+
             this->tempLives --; //reduces temp lives if there are any remaining
             this->health = max_health;
         }
     } else {
-        health -= damage; //reduces health if there is more health than damage taken
+
+        this->health -= damage; //reduces health if there is more health than damage taken
     }
 };
 
