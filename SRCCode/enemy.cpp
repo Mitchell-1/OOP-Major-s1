@@ -219,7 +219,7 @@ void enemy::powerUpDrop(std::vector<powerUp*> &powerups)
 {
     std::srand((unsigned) std::time(NULL));
 
-    int randomGen = rand() % 1;
+    int randomGen = rand() % 15;
 
     if (randomGen == 0) 
     {
