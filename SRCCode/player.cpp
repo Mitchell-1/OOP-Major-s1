@@ -216,7 +216,7 @@ this->hitTime.restart(); //restarts the clock so that the animations can work pr
 
     //Bullet is created at runtime when space is clicked and added to bullets vector
 void Player::shoot() {
-        Bullet* bullet = new Bullet(body->getPosition(), this->damage, -5);
+        Bullet* bullet = new Bullet(body->getPosition(), this->damage, -7.5);
         bullets.push_back(bullet);
 }
 
