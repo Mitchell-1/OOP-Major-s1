@@ -28,6 +28,9 @@ int reload = 0;
 std::vector<Bullet*> bullets;
 sf::Clock hitTime;
 bool isHit = false;
+sf::IntRect source(){return sf::IntRect(81, 16, 15, 15);};
+
+
 
 public:
 Player();
@@ -47,7 +50,8 @@ void checkPowerTime(std::vector<powerUp*>& currentPowerUps);
 void takeDamage(int damage);
 void shoot();
 int getLives() {return this->lives;};
-
+sf::Vector2f getPosition() {return this->body->getPosition();};
+void animation();
 
 };
 

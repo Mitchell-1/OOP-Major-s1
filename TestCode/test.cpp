@@ -11,7 +11,7 @@ int gamePasses = gameTests(g1);
 
 if (gamePasses == 4)
     {
-        std::cout << "All Game tests passed" << std::endl << std::endl;
+        std::cout << "All 4 Game tests passed" << std::endl << std::endl;
     } else
     {
         std::cout << gamePasses << "/4 Game tests passed" << std::endl << std::endl;
@@ -111,16 +111,22 @@ int gameTests(game& testGame)
 
 int playerTests() 
 {
+
+    Player *player;
+    player = new Player(100, 100);
     std::cout << "Player tests" << std::endl;
 
     int testsPassed = 0;
 
-    std::vector<powerUp*> TestPowerUps;
-    powerUp* testP = new powerUp('h')
-    TestPowerUps.push_back(testP);
+    std::vector<powerUp*> testPowerUps;
+    powerUp* testP = new powerUp('d', player->getPosition());
+    testPowerUps.push_back(testP);
 
     std::vector<Bullet*> testBullets;
-    Bullet * testB
+    Bullet * testB;
+    testB = new Bullet(player->getPosition(), 999, 5);
+    testBullets.push_back(testB);
+    player->hitReg(testBullets, testPowerUps);
 
     return testsPassed;
 };

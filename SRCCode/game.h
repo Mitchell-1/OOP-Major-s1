@@ -13,6 +13,7 @@
 #include "powers.h"
 #include "levels/levels.h"
 #include "livesUi.h"
+#include "menu.h"
 
 class game {
     private:
@@ -21,10 +22,11 @@ class game {
     enemy ** level;
     LivesUi * livesUi;
     float offset = 0;
-    float tpf;
-    int tickRate = 60;
+    float tpf = 1;
+    int tickRate = 90;
     sf::Clock dtClock;
     sf::Clock gameClock;
+    sf::Clock scoreTime;
     std::queue<int*[30]> levels;
     std::vector<powerUp*> currentPowerUps;
     int currentLevel = 0;
@@ -35,6 +37,14 @@ class game {
     int difficulty = 0;
     int frameCap = 200;
     levelList allLevels;
+    sf::Texture* titleTexture;
+    sf::Texture* enterTexture;
+    bool isMenu = true;
+    float score = 0;
+    sf::Text* scoreText;
+    Menu* menu;
+    sf::Font* font;
+
 
     public:
     void powerValidity();
@@ -54,6 +64,7 @@ class game {
     void updateDt();
     void bulletValidity();
     void gameTest();
+    Player * getPlayer() {return player;};
 
 };
 

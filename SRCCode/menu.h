@@ -10,8 +10,8 @@ class Menu {
     int highScore;
     public:
     Menu(int highScore, sf::Texture *title, sf::Texture *enter, sf::Texture *enemies);
-    void update();
+    void update(sf::RenderWindow *win, bool &menu, sf::Clock &timer);
     void draw();
-}
+};
 
 #endif

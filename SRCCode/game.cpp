@@ -5,14 +5,28 @@
 #include "player.h"
 #include "livesUi.h"
 #include <cmath>
-
+#include <string>
 game::game(int x, int y, std::string title) 
 {
+    titleTexture = new sf::Texture;
+    titleTexture->loadFromFile("SRCCode/static/TitlePNG.png");
+    enterTexture = new sf::Texture;
+    enterTexture->loadFromFile("SRCCode/static/EnterPNG.png");
+    
     texture = new sf::Texture;
     texture->loadFromFile("SRCCode/static/SpriteMap.png");
+    menu = new Menu(score, titleTexture, enterTexture, texture);
     player = new Player(800, 800, texture);
     win = new sf::RenderWindow(sf::VideoMode(x,y),title);
     livesUi = new LivesUi(player->getLives(), texture);
+    scoreText = new sf::Text;
+    font = new sf::Font;
+    font->loadFromFile("SRCCode/static/aqui.pcf");
+    scoreText->setFont(*font);
+    scoreText->setString("Score: " + std::to_string(this->score));
+    scoreText->setFillColor(sf::Color::White);
+    scoreText->setCharacterSize(22);
+    scoreText->setPosition(50,845);
     win->setFramerateLimit(frameCap);
     levelManager();
 }
@@ -22,7 +36,7 @@ game::~game(){};
 void game::updateDt() 
 {
     //Updates the dt (delta time) variable with the time it takes to update and render one frame
-    this->dt = this->dtClock.restart().asSeconds();
+    this->dt = this->dtClock.getElapsedTime().asSeconds();
     this->tpf = this->tickRate/(1/this->dt) + offset;
     this->offset = this->tpf-floor(this->tpf);
     this->tpf = floor(this->tpf);
@@ -41,20 +55,21 @@ void game::render()
 //this function updates the game every frame and incorporates delta time to update the "physics" every tick
 void game::update() 
 {
-
+    this->dtClock.restart();
     // this if loop updates the level if all enemies are destroyed
     if (currentEn == 0)
     {
         levelManager();
     }
 
-    this->updateDt();
+    
     
     
 
     //this for loop runs to create the "ticks" each frame has a certain amount of ticks based upon the tickRate and frameRate as determined in the updateDt function
     for (int i = 0; i < this->tpf; i++) 
     {
+        
 
     
     sf::Event e;
@@ -83,6 +98,7 @@ void game::update()
             //checks if the enemy is dead and if it is then it deletes it and removes it from the enemy list
             if (level[i]->isDead)
             {
+                this->score += 100*player->getLives()*level[i]->getHealth();
                 currentEn --;
                 delete level[i];
                 level[i] = nullptr;
@@ -106,9 +122,15 @@ void game::update()
     powerValidity();
     player->update(win, enemyBullets, currentPowerUps);
     livesUi->update(player->getLives());
-    }
-    win->clear();
 
+    this->score += scoreTime.restart().asMilliseconds()/10.f;
+    
+    scoreText->setString("Score: " + std::to_string(static_cast<unsigned long int>(this->score)));
+    }
+
+
+    win->clear();
+    win->draw(*scoreText);
     livesUi->draw(win);
     player->draw(win);
     
@@ -141,7 +163,7 @@ void game::update()
         gameClock.restart();
     
     win->display();
-    
+    this->updateDt();
 }
 
 void game::powerValidity() 
@@ -159,7 +181,6 @@ void game::powerValidity()
                 currentPowerUps.erase(currentPowerUps.begin()+i);
             }  
         }
-          
     }
 }
 
@@ -171,7 +192,7 @@ unsigned short count;
 unsigned int ArrPos = 0;
 
 //these nested for loops decide the position of the enemy objects within the game window
-for (int posY = 50; posY <win->getSize().y; posY+= 200) 
+for (int posY = 150; posY <win->getSize().y; posY+= 200) 
 {
     
     for (int posX = 50; posX < win->getSize().x; posX+= win->getSize().x/10)
@@ -289,7 +310,8 @@ void game::levelManager()
     default:
     {
         currentLevel = 1;
-        difficulty ++;
+        if (difficulty < 5)
+            difficulty ++;
         levelCreate(allLevels.level1);
         currentEn = allLevels.level1Size;
         break;
@@ -302,12 +324,20 @@ void game::run() {
 
     while (win->isOpen()) 
     {   
-        this->update();
+        if (this->isMenu)
+        {
+            menu->update(win, this->isMenu, scoreTime);
+        }
+        else 
+        {
+            this->update();
+        }
     }
 }
 
 
 void game::gameTest()
 {
+    
     win->close();
 }

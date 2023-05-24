@@ -8,10 +8,10 @@ strongEnemy::strongEnemy(int x, int y, sf::Texture *text, int difficulty) : enem
     this->isDead = false;
     this->isDying = false;
     this->texture2 = false;
-    this-> health = 5 * difficulty;
+    this-> health = 2 * difficulty;
     this-> damage = 1 * difficulty;
     this-> speed = 10;
-    this->lives = 1 *difficulty;
+    this->lives = 1;
     this->tempLives = 0;
     this->direction = (0.05f * this->speed);
     this->shootChance = 13.87;

@@ -16,7 +16,7 @@ Player::Player() {
 
 Player::Player(int x, int y){
     body = new sf::Sprite();
-    body->setTextureRect(sf::IntRect(80, 17, 15, 15));
+    body->setTextureRect(this->source());
     body->setScale(6,6);
     body->setPosition(x, y);
     this->max_health = 1;
@@ -33,8 +33,8 @@ Player::Player(int x, int y, sf::Texture* text) {
     body = new sf::Sprite();
     this->texture = new sf::Texture(*text);
     body->setTexture(*texture);
-    body->setTextureRect(sf::IntRect(80, 17, 15, 15));
-    body->setScale(6,6);
+    body->setTextureRect(this->source());
+    body->setScale(5,5);
     body->setPosition(x, y);
     body->setOrigin(body->getLocalBounds().width/2.f,body->getLocalBounds().height/2.f);
     body->setColor(sf::Color::Green);
@@ -43,7 +43,7 @@ Player::Player(int x, int y, sf::Texture* text) {
     this-> health = 1;
     this-> damage = 1;
     this-> speed = 10;
-    this->lives = 3;
+    this->lives = 5;
     this->left = false;
     this->right = false;
     this->isShooting = false;
@@ -106,6 +106,17 @@ void Player::bulletValidity(sf::RenderWindow* win)
     }
 }
 
+void Player::animation()
+{
+    if (this->hitTime.getElapsedTime().asSeconds() <= 0.8)
+    {
+        this->body->setColor(sf::Color::Red);
+    } else
+    {
+        this->isHit = false;
+        this->body->setColor(sf::Color::Green);
+    }
+};
 
 //update player position and data, with bullets encapsulated
 void Player::update(sf::RenderWindow* win, std::vector<Bullet*>& Bullets, std::vector<powerUp*>& currentPowerUps) 
@@ -113,8 +124,10 @@ void Player::update(sf::RenderWindow* win, std::vector<Bullet*>& Bullets, std::v
                          //check if any movement has been made
     if (isDying)
     {
-        //win->close();
+        //std::cout << "dead" <<std::endl;
     }
+    if (isHit)
+        animation();
     sf::Vector2f movement;
     if (left)
         movement.x -= (0.5 * speed);
@@ -150,7 +163,7 @@ void Player::update(sf::RenderWindow* win, std::vector<Bullet*>& Bullets, std::v
     }
     else 
     {
-        body->setTextureRect(sf::IntRect(78,17,15,15));
+        body->setTextureRect(this->source());
     }
 
     
@@ -158,6 +171,8 @@ void Player::update(sf::RenderWindow* win, std::vector<Bullet*>& Bullets, std::v
 
 void Player::hitReg(std::vector<Bullet*>& enemyBullets, std::vector<powerUp*>& currentPowerUps)
 {
+    if (!isHit)
+    {
         if (!enemyBullets.empty()) //checks if there are any Bullets in the vector to avoid potential errors
         {
             //loops through all of the enemyBullets in the vector and checks if the bullet collision box intersects with the enemy hitbox and if it does then it triggers takedamage()
@@ -171,7 +186,7 @@ void Player::hitReg(std::vector<Bullet*>& enemyBullets, std::vector<powerUp*>& c
                 }  
             }          
         }
-
+    }
         if (!currentPowerUps.empty()) 
         {
             for (int i = 0; i < currentPowerUps.size(); i++) 
@@ -190,7 +205,7 @@ void Player::hitReg(std::vector<Bullet*>& enemyBullets, std::vector<powerUp*>& c
 
 void Player::takeDamage(int damage) 
 {
-this->hitTime.restart(); //restarts the clock so that the animations can work properly
+    this->hitTime.restart(); //restarts the clock so that the animations can work properly
     this->isHit = true;
 
     //these if statements check all possibilites for taking damage and act accordingly
@@ -229,6 +244,7 @@ void Player::getPowerUp(powerUp* power){
         maxReload = 1;
     } else 
         this->maxReload -= power->reload;
+    this->damage += power->damage;
     sf::Clock* time = new sf::Clock;
     power->duration = time;
 };

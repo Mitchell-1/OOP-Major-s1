@@ -39,7 +39,8 @@ sf::FloatRect getGlobal();
 void draw(sf::RenderWindow * win);
 void animation(sf::Clock &clock);
 void takeDamage(int damage);
-void shoot(std::vector<Bullet*> &enemyBullets);
+virtual void shoot(std::vector<Bullet*> &enemyBullets);
+int getHealth() {return this->health;}
 ~enemy();
 
 };
