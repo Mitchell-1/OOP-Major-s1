@@ -189,14 +189,27 @@ void game::endOfGame()
             {
                 tempHighScore = std::to_string(static_cast<long unsigned int>(this->score));
             }
+            else 
+            {
+                tempHighScore = this->menu->getHighScore(); 
+            }
             tempScore = std::to_string(static_cast<long unsigned int>(this->score));
             scoreFile << tempHighScore << std::endl;
             scoreFile << tempScore << std::endl;
         }
         scoreFile.close();
         delete menu;
+        
         menu = new Menu(score, titleTexture, enterTexture, texture, font);
         this->isMenu = true;
+        this->player->setisDying();
+        delete livesUi;
+        this->player->reset();
+        livesUi = new LivesUi(player->getLives(), texture);
+        this->score = 0;
+        this->currentLevel =0;
+        this->difficulty =0;
+        levelManager();
         
 }
 

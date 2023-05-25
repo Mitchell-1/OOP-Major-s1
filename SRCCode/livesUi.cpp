@@ -29,6 +29,7 @@ void LivesUi::draw(sf::RenderWindow *win)
 void LivesUi::update(int lives) 
 {
     this->lives = lives;
+    if (!livesSprites.empty()) {
     while (this->lives < livesSprites.size()) 
     {
         delete livesSprites.at(0);
@@ -38,4 +39,5 @@ void LivesUi::update(int lives)
     {
         livesSprites.at(i)->setPosition(20+(50*i),30);
     }
+}
 }
