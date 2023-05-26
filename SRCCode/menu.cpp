@@ -114,7 +114,6 @@ void Menu::update(sf::RenderWindow *win, bool &menu, sf::Clock &timer)
             
             if(e.key.code == sf::Keyboard::Enter)
             {
-                std::cout << "Enter" << std::endl;
                 menu = false;
                 timer.restart();
             }
