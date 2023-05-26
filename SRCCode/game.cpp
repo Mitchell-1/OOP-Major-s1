@@ -103,6 +103,10 @@ void game::update()
         {
                 level[i]->shoot(this->enemyBullets);
                 level[i]->update(win, player->getBullets(), currentPowerUps);
+                if (level[i]->getBody().y >= 830) 
+                {
+                    this->player->setisDying(true);
+                }
 
             //checks if the enemy is dead and if it is then it deletes it and removes it from the enemy list
             if (level[i]->isDead)
@@ -202,7 +206,7 @@ void game::endOfGame()
         
         menu = new Menu(score, titleTexture, enterTexture, texture, font);
         this->isMenu = true;
-        this->player->setisDying();
+        this->player->setisDying(false);
         delete livesUi;
         this->player->reset();
         livesUi = new LivesUi(player->getLives(), texture);

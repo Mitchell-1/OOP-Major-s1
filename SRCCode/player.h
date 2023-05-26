@@ -56,7 +56,7 @@ int getReload() {return this->maxReload;};
 int getDamage() {return this->damage;};
 bool getisDying() {return this->isDying;};
 sf::Vector2f getPosition() {return this->body->getPosition();};
-void setisDying() {this->isDying = false;};
+void setisDying(bool dying) {this->isDying = dying;};
 void reset() {this->lives = 5;};
 void animation();
 
